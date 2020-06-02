@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="github.white-alone.com"><title>使用srsLTE搭建4G基站用于日常测试 | White-Alone</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">使用srsLTE搭建4G基站用于日常测试</h1><a id="logo" href="/.">White-Alone</a><p class="description">蝴蝶再美 终究飞不过沧海</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">使用srsLTE搭建4G基站用于日常测试</h1><div class="post-meta">2020-04-26<span> | </span><span class="category"><a href="/categories/Radio/">Radio</a></span><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span></div><a class="disqus-comment-count" href="/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/#vcomment"><span class="valine-comment-count" data-xid="/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/"></span><span> 条评论</span></a><div class="post-content"><p><strong><font color=red>IoX = Internet of Devices, Hardware, Sensors, Chipsets, Radio…</font></strong></p>
+<p><strong><font color=red>IoX Team 期待您的加入！</font></strong></p>
+<p><strong>蚂蚁集团-IoT安全专家  岗位JD：</strong><br><a href="https://job.alibaba.com/zhaopin/position_detail.htm?spm=a2obv.11410903.0.0.78b944f6XbE389&amp;positionId=87294" target="_blank" rel="noopener">https://job.alibaba.com/zhaopin/position_detail.htm?spm=a2obv.11410903.0.0.78b944f6XbE389&amp;positionId=87294</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">团队介绍：</span><br><span class="line">我们正在寻找富有激情和经验的优秀安全研究人员，以迎接包括移动、云、IoT、数据安全和AI安全在内的众多场景的安全挑战， 为互联网用户提供下一代安全防护体系和解决方案。</span><br><span class="line"></span><br><span class="line">岗位描述：</span><br><span class="line">保障蚂蚁金服在众多IoT业务场景的安全，从硬件、系统、传感器、网络、移动端、云端等各个方面发掘IoT应用场景中的基础安全问题，并能提供解决方案。</span><br><span class="line">IoX &#x3D; Internet of Devices, Hardware, Sensors, Chipsets, Radio...</span><br><span class="line"></span><br><span class="line">岗位要求：</span><br><span class="line">有以下任一经验者欢迎应聘</span><br><span class="line"></span><br><span class="line">1、硬件和嵌入式系统安全：有RTOS、Android内核、Linux系统安全经验；有RISC-V架构下的嵌入式开发或安全研究经验；熟悉常见智能硬件设备&amp;手机的固件提取与分析方法；熟悉硬件PCB设计、电路debug分析调试；有逆向工程经验，熟练使用IDA、OllyDbg等逆向工具进行静态&amp;动态二进制分析；</span><br><span class="line">2、无线安全：有无线通信开发调试和安全分析的经验；如熟悉WiFi，4G&#x2F;5G，蓝牙、NFC等无线协议的安全漏洞、标准跟进；熟悉GNU Radio、USRP、BladeRF等SDR设备的使用；有无线协议类漏洞和无线芯片实现类漏洞挖掘经验优先；</span><br><span class="line">3、传感器和芯片安全：熟悉人脸、指纹、声纹、眼纹，或者U盾、加密芯片等身份识别算法或具备相关开发调试经验优先；有智能硬件破解的相关实战经验，在GeekPwn、XPwn、HackPwn等破解大赛展示过破解项目。</span><br></pre></td></tr></table></figure>
+
+<p>很多IoT设备都在使用4G网卡，但测4G链路安全时候，毕竟不像WIFI测试那么方便，CMW500的价格还是很贵的，尤其是想IoT安全爱好者童鞋，或者其他移动端需要测试4G链路的，其实可以使用低成本SDR方案，也就是这里要介绍的。</p>
+<p>最低成本可以使用LimeSDR Mini+PC机，也可以使用BladeRF x40或者x115来实现。如果条件允许，还是使用USRP B200mini、B210或者N210甚至X310比较舒服。</p>
+<p>srsLTE 是软件无线电系统（SRS）的开源SDR LTE软件套件。是由爱尔兰SoftwareRadioSystems (SRS)公司开发实现的免费开源LTE SDR平台，在AGPLv3 license许可下发布，并且在实现中使用了OpenLTE的相关功能。有关文档，指南和项目新闻，请参见srsLTE项目页面（<a href="http://www.srslte.com）" target="_blank" rel="noopener">www.srslte.com）</a></p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890024849.png" alt=""></p>
+<p>srsLTE包括以下组件：</p>
+<ul>
+<li>srsUE - 完整的 SDR LTE UE 应用，支持从 PHY 到 IP 层特性</li>
+<li>srsENB - 完整的 SDR LTE eNodeB 应用</li>
+<li>srsEPC - 轻量级 LTE 核心网络实现，支持 MME, HSS 和 S/P-GW</li>
+<li>高度模块化的共用库 PHY, MAC, RLC, PDCP, RRC, NAS, S1AP 和 GW层</li>
+</ul>
+<p>通用特性：</p>
+<ul>
+<li>支持 LTE Release 10</li>
+<li>测试频率: 1.4, 3, 5, 10, 15 and 20 MHz</li>
+<li>传输模式1（单天线），2（发射分集），3（CCD）和4（闭环空间复用）</li>
+<li>基于频率的ZF和MMSE均衡器</li>
+<li>演进的多媒体广播和多播服务（eMBMS）</li>
+<li>高度优化的Turbo解码器，采用Intel SSE4.1 / AVX2（+100 Mbps）和标准C（+25 Mbps）</li>
+<li>支持 MAC, RLC, PDCP, RRC, NAS, S1AP 和 GW 层</li>
+<li>具有每层日志级别和十六进制转储的详细日志系统</li>
+<li>MAC层wireshark数据包捕获</li>
+<li>命令行跟踪指标</li>
+<li>详细的输入配置文件</li>
+<li>用于EPA，EVA和ETU 3GPP频道的信道模拟器</li>
+<li>基于ZeroMQ的伪RF驱动器，用于IPC/网络上的 I/Q</li>
+</ul>
+<p>srsUE 特性：</p>
+<ul>
+<li>FDD 和 TDD 配置</li>
+<li>运营商聚合支持</li>
+<li>UE的小区搜索和同步过程</li>
+<li>软USIM支持Milenage和XOR身份验证</li>
+<li>使用PCSC框架的硬USIM支持</li>
+<li>在网络连接时创建的虚拟网络接口tun_srsue</li>
+<li>QoS 支持</li>
+<li>i7四核CPU中20 MHz MIMO TM3 / TM4配置中的150 Mbps DL。</li>
+<li>i7四核CPU中20 MHz SISO配置中的75 Mbps DL。</li>
+<li>i5双核CPU中10 MHz SISO配置中的36 Mbps DL。</li>
+</ul>
+<p>srsUE 在如下网络设备中测试和验证通过：</p>
+<ul>
+<li>Amarisoft LTE100 eNodeB 和 EPC</li>
+<li>诺基亚FlexiRadio系列FSMF系统模块具有1800MHz FHED无线电模块和TravelHawk EPC模拟器</li>
+<li>Huawei DBS3900</li>
+<li>Octasic Flexicell LTE-FDD NIB</li>
+</ul>
+<p>srsENB 特性：</p>
+<ul>
+<li>FDD 配置</li>
+<li>循环MAC调度程序，具有类似FAPI的C ++ API</li>
+<li>SR 支持</li>
+<li>定期和非周期性CQI反馈支持</li>
+<li>标准S1AP和GTP-U与核心网络接口</li>
+<li>具有商用UE的20MHz MIMO TM3 / TM4中的150Mbps DL</li>
+<li>具有商用UE的SISO配置中的75 Mbps DL</li>
+<li>20 MHz的50 Mbps UL，商用US</li>
+<li>用户平面加密</li>
+</ul>
+<p>srsENB已通过以下手机进行测试和验证：</p>
+<ul>
+<li>LG Nexus 5 and 4</li>
+<li>Motorola Moto G4 plus and G5</li>
+<li>Huawei P9/P9lite, P10/P10lite, P20/P20lite</li>
+<li>Huawei dongles: E3276 and E398</li>
+</ul>
+<p>srsEPC 特性：</p>
+<ul>
+<li>单个二进制、轻量级LTE EPC实现，具有：</li>
+<li>MME（移动性管理实体）具有到eNB的标准S1AP和GTP-U接口</li>
+<li>标准SGi的S/P-GW暴露为虚拟网络接口（TUN设备）</li>
+<li>HSS（归属订户服务器），具有CSV格式的可配置用户数据库</li>
+<li>支持分页</li>
+</ul>
+<p>硬件支持：</p>
+<p>支持如下硬件:</p>
+<ul>
+<li>USRP B200</li>
+<li>USRP B210</li>
+<li>USRP B200mini</li>
+<li>USRP B205mini</li>
+<li>USRP N210</li>
+<li>USRP X310</li>
+<li>limeSDR</li>
+<li>bladeRF</li>
+</ul>
+<p>Github网址：<a href="https://github.com/srsLTE/srsLTE" target="_blank" rel="noopener">https://github.com/srsLTE/srsLTE</a></p>
+<p>安装部署srsLTE建议用物理机，因为一些指令优化、时序要求非常精准，比如双向验证鉴权的时候，差一点都不行，如果不使用USRP N210或者X310一类通过网络的SDR硬件稳定性，而使用USB接口的话虚拟机稳定性略差。</p>
+<p>这里使用Ubuntu 16.04搭配USRP B210进行测试，使用root账户直接安装配置。<br>先安装低延时内核，之后重启加载新内核：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get install linux-lowlatency</span><br><span class="line">apt-get install linux-image-`uname -r | cut -d- -f1-2`-lowlatency</span><br><span class="line">apt-get install linux-headers-`uname -r | cut -d- -f1-2`-lowlatency</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，之后如果升级内核，需要手动再安装低延迟内核！</p>
+<p>先安装UHD，使用pybombs安装或者源码直接安装都可以，具体如前文所述，这里不再重复。如果是BladeRF、LimeSDR也一样，先装驱动。</p>
+<p>在Ubuntu下也可以选择用apt安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">add-apt-repository ppa:srslte/releases</span><br><span class="line">apt-get update</span><br><span class="line">apt-get install srsepc srcenb srsue stelte</span><br></pre></td></tr></table></figure>
+
+<p>但需要注意的是，uhd驱动不能用最新的，否则加载usrp会失败。所以，还是建议使用源码编译安装。</p>
+<p>这里再讲下用源码安装。<br>安装srsGUI：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">apt-get install cmake g++ libpython-dev python-numpy swig git libsqlite3-dev libi2c-dev libusb-1.0-0-dev libwxgtk3.0-dev freeglut3-dev libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libboost-system-dev libboost-test-dev libboost-thread-dev libqwt-dev libqt4-dev</span><br><span class="line">git clone https://github.com/srsLTE/srsGUI.git</span><br><span class="line">cd srsGUI</span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">cmake ../</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure>
+
+<p>安装SoapySDR：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pothosware/SoapySDR.git</span><br><span class="line">cd SoapySDR</span><br><span class="line">git checkout soapy-sdr-0.7.2</span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">cmake ..</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure>
+
+<p>安装srsLTE:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/srsLTE/srsLTE.git</span><br><span class="line">cd srsLTE</span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">cmake ../</span><br><span class="line">make -j8</span><br><span class="line">make test</span><br><span class="line">make install</span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后生成配置文件，配置文件user生成到用户路径~/.config/srsLTE/，service生成到/etc/srsLTE路径：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">srslte_install_configs.sh user</span><br></pre></td></tr></table></figure>
+
+<p>配置网络接口，参数是默认能上网的网口，这里是eth0：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">srsepc_if_masq.sh eth0</span><br></pre></td></tr></table></figure>
+
+<p>最后再添加SIM卡的配置，主要是IMSI、KI、OPC，编辑~/.config/srsLTE/user_db.csv文件，格式为：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(ue_name),(algo),(imsi),(K),(OP/OPc_type),(OP/OPc_value),(AMF),(SQN),(QCI),(IP_alloc)</span><br><span class="line">ue3,mil,<span class="number">221010123456789</span>,<span class="number">6874736969202073796</span>D4B2079650A76,opc,<span class="number">504</span>F20634F6320504F50206363500A4F,<span class="number">8000</span>,<span class="number">000000001234</span>,<span class="number">7</span>,dynamic</span><br></pre></td></tr></table></figure>
+<p><img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890327865.png" alt=""></p>
+<p>再将这些参数写入SIM卡，这里建议使用GPSIMWrite，简单便捷，相比pysim还是方便不少，缺点是只能在Windows下。写卡器可以使用MCR3512、M100等营业厅所用写卡器都可以，用Bludrive IISIM也可以。</p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890334890.png" alt=""></p>
+<p>白卡选择LTE卡就可以，很多手机或者终端厂商需要用白卡配合CMW500一类综合测试仪进行测试，所以检索测试白卡关键字能买到，价格不便宜。<strong>仅供学习使用，请勿用于非法用途！</strong></p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890345877.png" alt=""></p>
+<p>具体可以设置完LTE的IMSI15、KI和OPC之后，点击Same With LTE，之后点击Write Card写入白卡：<br> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890375657.png" alt=""></p>
+<p>把写好的卡装入手机，再分别启动srsepc和srsenb：</p>
+<p><img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890379903.png" alt=""></p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890386510.png" alt=""></p>
+<p>这样srsLTE就启动了，下行2685MHz上行2565MHz。如果不使用USRP，使用BladerRF或者LimeSDR也类似，在启动时候会自动加载。</p>
+<p>注：如果USRP、BladeRF驱动都安装了，个别人的环境会出现从USRP换BladeRF无法加载的问题，进入srsLTE的build目录，检查CMakeCache.txt文件中BLADERF_FOUND是TRUE。如果是FALSE，就删掉CMakeCache.txt再重新“cmake..”，按照前面的步骤重新编译安装srsLTE。</p>
+<p>注：为了获得最佳性能，建议禁用CPU频率动态调整，比如以下脚本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for f in /sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_governor ; do</span><br><span class="line">  echo performance &gt; $f</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>在srsenb界面可以输入t回车来实时查看snr、bler等性能指标参数，如图所示：</p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890407608.png" alt=""></p>
+<p>如果电脑配置高的话，可以打开星座图，修改enb.conf，将enable设置为true，会增加CPU负载：</p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890411858.png" alt=""></p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890416486.png" alt=""></p>
+<p>打开手机的网络选择界面，将手机注册进入网络：</p>
+<p>  <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890420829.png" alt=""></p>
+<p>  <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890425012.png" alt=""></p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890429498.png" alt=""></p>
+<p>如果手机无法搜索到信号，或者搜到了无法加入，先用其他SDR或者频谱仪检查下是否有信号发出，其次检查信号是否有频偏，因为每种手机对频偏的容忍度是不一样的。笔者实测中，华为的兼容性是最好的。<br>如果有频偏，修改“ue.conf”中的“freq_offset”参数，如图所示。正常情况下如果使用官方原版SDR设备，而不是山寨SDR设备，很少出现这种情况。另外，使用GPSDO或者其他稳定的时钟输入，也能避免这种问题。</p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890456114.png" alt=""></p>
+<p>如果还是无法搜索到信号，那就可能是手机的基带问题，比如在默认配置下，测试发现小米MIX就无法搜索到，可以修改下频段，也就是“EARFCN”参数，也可以直接在srsenb执行时加参数：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">srsenb ~/.config/srslte/enb.conf --rf.dl_earfcn 1575</span><br></pre></td></tr></table></figure>
+<p><img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890476359.png" alt=""></p>
+<p>再测试就能搜索到了，如图所示。</p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890486220.png" alt=""></p>
+<p>EARFCN和频段对照关系如下图所示：</p>
+<p><img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890511006.png" alt=""></p>
+<p><img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890516060.png" alt=""></p>
+<p>当然，注册进网络后，还需要在电脑上配置nat转发：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo 1 &gt; /proc/sys/net/ipv4/ip_forward</span><br><span class="line">iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br></pre></td></tr></table></figure>
+
+<p>在手机上配置APN，也就是epc.conf中默认设置的srsapn：</p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890540595.png" alt=""></p>
+<p>手机上APN设置里新建，只需要设置名称和APN即可：</p>
+<p><img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890547461.png" alt=""></p>
+<p><img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890565839.png" alt=""></p>
+<p>然后手机就可以愉快地上网了：</p>
+<p><img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890570857.png" alt=""></p>
+<p><img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890575313.png" alt=""></p>
+<p>再进行一次测速：</p>
+<p><img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890581734.png" alt=""></p>
+<p>受限于家里宽带的速度，总体还可以。</p>
+<p>同时，在部署的电脑上可以使用wireshark进行抓包，可以对手机的4G流量进行分析，用于手机、平板、工控机等使用4G网络的设备进行分析研究。</p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890589368.png" alt=""></p>
+<p>除了enb用于手机，还可以使用ue让电脑与电脑连接，这里使用另一台电脑外接一个USRP B210，安装部署流程一致，只是执行应用的时候不是srsepc和srsenb，直接执行srsue即可：</p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890595438.png" alt=""></p>
+<p>相当于这个USRP就是一个LTE基带，连上基站后会创建一个虚拟网卡tun_srsue，分配的IP是172.16.0.2和srsenb做创建的虚拟网卡在一个网段，可以互相ping一下：</p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890601079.png" alt=""></p>
+<p>和srsenb类似srsue也可以打开星座图，修改ue.conf，将enable设置为true，如图所示。同样会增加CPU负载，效果如图所示。</p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890606589.png" alt=""></p>
+<p> <img src="http://qn.white-alone.com/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/hexo_1587890610453.png" alt=""></p>
+<p>相比OAI，srsLTE对电脑的性能要求更高一些，但配置更加简便。</p>
+<p>更多内容可以看官方文档：<br><a href="https://docs.srslte.com/en/latest/index.html" target="_blank" rel="noopener">https://docs.srslte.com/en/latest/index.html</a></p>
+<p><strong>最后附一个淘宝的参考购买链接：</strong></p>
+<p><a href="https://item.taobao.com/item.htm?id=615846456252" target="_blank" rel="noopener">https://item.taobao.com/item.htm?id=615846456252</a></p>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css"><script type="text/javascript" src="/js/donate.js" successtext="复制成功!"></script><a class="pos-f tr3" id="github" href="https://github.com/Kaiyuan/donate-page" target="_blank" rel="noopener" arget="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="PayPal"><a href="https://paypal.me/WhiteA10n3" target="_blank"></a></li><li id="AliPay" qr="/img/AliPayQR.png"></li><li id="WeChat" qr="/img/WeChatQR.png"></li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="tags"><a href="/tags/%E6%97%A0%E7%BA%BF/"><i class="fa fa-tag"></i>无线</a></div><div class="post-nav"><a class="pre" href="/hello-world/">Hello World</a><a class="next" href="/%E5%A6%82%E4%BD%95%E8%87%AA%E5%BB%BAIoT%E5%AE%9E%E9%AA%8C%E5%AE%A4_1/">如何自建IoT实验室（一）</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'DMvc4Cxt8whC7d4dX0ysFmXE-gzGzoHsz',
+  appKey:'8i8vBc78aHMgXoKi1rz4CzKa',
+  placeholder:'Just so so',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://github.white-alone.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IoT/">IoT</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mood/">Mood</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Radio/">Radio</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Travel/">Travel</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/%E7%BD%91%E7%AB%99/" style="font-size: 15px;">网站</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/%E9%A9%B1%E5%8A%A8/" style="font-size: 15px;">驱动</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E6%97%A0%E7%BA%BF%E7%94%B5/" style="font-size: 15px;">软件无线电</a> <a href="/tags/%E6%97%A0%E7%BA%BF/" style="font-size: 15px;">无线</a> <a href="/tags/NAS/" style="font-size: 15px;">NAS</a> <a href="/tags/Ubuntu/" style="font-size: 15px;">Ubuntu</a> <a href="/tags/Debian/" style="font-size: 15px;">Debian</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 15px;">软件</a> <a href="/tags/%E5%BF%83%E8%AF%AD/" style="font-size: 15px;">心语</a> <a href="/tags/%E6%97%85%E8%A1%8C/" style="font-size: 15px;">旅行</a> <a href="/tags/IoT/" style="font-size: 15px;">IoT</a> <a href="/tags/Andriod/" style="font-size: 15px;">Andriod</a> <a href="/tags/Root/" style="font-size: 15px;">Root</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/">使用srsLTE搭建4G基站用于日常测试</a></li><li class="post-list-item"><a class="post-list-link" href="/%E5%A6%82%E4%BD%95%E8%87%AA%E5%BB%BAIoT%E5%AE%9E%E9%AA%8C%E5%AE%A4_1/">如何自建IoT实验室（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/%E5%A6%82%E4%BD%95%E8%87%AA%E5%BB%BAIoT%E5%AE%9E%E9%AA%8C%E5%AE%A4_2/">如何自建IoT实验室（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/GNU%20Radio%203.8.0.0%E5%AE%89%E8%A3%85/">GNU Radio 3.8.0.0安装</a></li><li class="post-list-item"><a class="post-list-link" href="/OpenBTS%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">OpenBTS使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/Ubuntu%2018.04%E9%85%8D%E7%BD%AEGNURadio%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/">Ubuntu 18.04配置GNURadio基础环境</a></li><li class="post-list-item"><a class="post-list-link" href="/%E8%8D%A3%E8%80%80X2_Root/">华为荣耀X2 GEM-703L B211 ROOT方法</a></li><li class="post-list-item"><a class="post-list-link" href="/GNURadio%E6%95%99%E7%A8%8B_3/">GNU Radio教程（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/%E4%B8%89%E4%B8%87%E8%8B%B1%E5%B0%BA%E7%9A%84%E4%B8%83%E5%A4%95/">三万英尺的七夕</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://www.t00ls.net/" title="T00ls" target="_blank">T00ls</a><ul></ul><a href="http://unicorn.360.cn/" title="UnicornTeam" target="_blank">UnicornTeam</a><ul></ul><a href="https://www.jarviswang.me/" title="Jarvis" target="_blank">Jarvis</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">White-Alone.</a>| <a rel="nofollow" target="_blank" href="http://www.miitbeian.gov.cn/">  京ICP备16029179号 </a>| <img class="nofancybox" src="/img/beian.png" style="margin-bottom: -4px;"/><a rel="nofollow" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode= /">  京公网安备11010502037135号</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

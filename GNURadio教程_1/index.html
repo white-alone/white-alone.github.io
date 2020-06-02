@@ -1,0 +1,399 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="github.white-alone.com"><title>GNU Radio教程（一） | White-Alone</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">GNU Radio教程（一）</h1><a id="logo" href="/.">White-Alone</a><p class="description">蝴蝶再美 终究飞不过沧海</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">GNU Radio教程（一）</h1><div class="post-meta">2016-06-10<span> | </span><span class="category"><a href="/categories/Radio/">Radio</a></span><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span></div><a class="disqus-comment-count" href="/GNURadio%E6%95%99%E7%A8%8B_1/#vcomment"><span class="valine-comment-count" data-xid="/GNURadio%E6%95%99%E7%A8%8B_1/"></span><span> 条评论</span></a><div class="post-content"><h1 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h1><h2 id="0x110-什么是GNU-Radio"><a href="#0x110-什么是GNU-Radio" class="headerlink" title="0x110 什么是GNU Radio"></a>0x110 什么是GNU Radio</h2><p> GNU Radio是一个设计框架，一个开源的无线电架构平台，用户可以用来设计、模拟和部署的真实高效无线电系统。GNU Radio是一个高度模块化，采用<code>flowgraph</code>流图形式的软件平台，它集成了处理各种信号的库，可以很方便的将各个模块结合到一起来处理复杂的信号。</p>
+<p>GNU Radio已经被广泛应用于无线电领域，可以用电脑软件处理包括音频处理、移动通信、卫星跟踪、雷达系统、GSM网络、数字信号广播等等。</p>
+<p>GNU Radio 硬件平台本身并不是非常特殊的硬件，也没有包含现成的通信协议和通信标准，比如802.11、Zigbee、LTE等，但它可以用于开发并实现任何频率、任何协议的无线电通信。</p>
+<h2 id="0x120-为什们要用GNU-Radio？"><a href="#0x120-为什们要用GNU-Radio？" class="headerlink" title="0x120 为什们要用GNU Radio？"></a>0x120 为什们要用GNU Radio？</h2><p>以前，无线电通信方面的开发，工程师需要设计用于检测特定信号的信号检测电路，设计专用IC用来解码或者编码特定信号，才能进行数据通信和传输，整个调试过程成本很高而且很费时间。</p>
+<p>Software-Defined Radio 软件无线电SDR使得开发变得非常简单，只要有钱买一块SDR板子并且有能力使用它，就可以用算法在计算机的软件上处理无线电信号。</p>
+<p>当你的电脑连接了软件无线电设备，每次都从头开始编写一个用于处理各个算法和数据的程序，你会觉得非常麻烦：为什么每次都要重新实现一个标准的过滤器？为什么要关注数据在不同处理模块之间的通信？为什么不能用高度集成的模块进行实现，非得自己写？而且怎么才能让程序能更好的兼容各种平台，比如一个功率只有几W的嵌入式设备？</p>
+<p>GNU Radio就具备这些功能。这是一个集成度非常好的信号处理模块框架，里面封装了非常多的可以重复使用的模块，而且扩展性非常好，提供了很多标准算法的扩展库，并且在各种平台上都有很大程度的优化，它还有很多很多例子让你可以很轻松的上手。</p>
+<h2 id="0x130-数字信号处理"><a href="#0x130-数字信号处理" class="headerlink" title="0x130 数字信号处理"></a>0x130 数字信号处理</h2><p>作为一个软件框架，GNU Radio可以让通用的计算机平台进行数字信号处理。</p>
+<h3 id="0x131-小信号理论"><a href="#0x131-小信号理论" class="headerlink" title="0x131 小信号理论"></a>0x131 小信号理论</h3><p>用软件处理信号就是信号是数字信号，但什么是数字信号？</p>
+<p>为了更好的理解，我们看一个很常见的<code>信号</code>处理场景：用麦克风录制语音并传输</p>
+<p>从物理层面上讲，声音信号的<code>信号</code>：由人的声带产生的空气震荡波，这也是一个<code>时变</code>的物理量，比如空气震荡，就可以被定义为<code>信号</code>：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009067.png" alt=""></p>
+<p>当声波到达麦克风，麦克风将空气的震动变化转成电信号，表象是一个可变的电压值：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009068.jpg" alt=""></p>
+<p>现在声音信号就是电信号了。计算机并不能处理原始的声音信号，因为它是模拟信号，而计算机只能处理数字信号。数字信号有两个基本特征：</p>
+<ul>
+<li><p>只能是有限数量的数值</p>
+</li>
+<li><p>只有时间是变量</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009069.png" alt=""></p>
+<p>数字信号通常能够用一个数字序列来表示，我们称之为样本，样本之间的固定时间间隔就是采样频率。</p>
+<p>通常将物理量（电压）转换成数字样本的采样动作，是由<code>模拟/数字转换器（ADC）</code>来完成，当然也有反向的<code>数字/模拟转换器（DAC）</code>，可以将数字信号转换成模拟信号。</p>
+<p>当我们有了这个数字序列，就可以用电脑来做任何事，比如可以用数字滤波器，压缩、语音识别或者用数字通信链路传输它。</p>
+<h3 id="0x132-用数字信号处理进行无线电传输"><a href="#0x132-用数字信号处理进行无线电传输" class="headerlink" title="0x132 用数字信号处理进行无线电传输"></a>0x132 用数字信号处理进行无线电传输</h3><p>无线电信号和声音信号是同样的原理。</p>
+<p>一个无线电信号，也是一个电磁波，同样可以通过天线将它转换成一个变化的电压。当然，这个电信号可能是在几M甚至几千M的<code>载波</code>上。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009070.png" alt=""></p>
+<p>无线电信号可以利用不同类型的接收机来接收，例如超外差接收机、直通机或者中低频接收机等，也能用获得软件无线电支持的商业设备（比如连接到声卡的专业无线电接收机），也能用低成本消费者考虑的数字电视接收机（比如著名的RTL-SDR）</p>
+<h2 id="0x140-用模块化的流图进行数字信号处理"><a href="#0x140-用模块化的流图进行数字信号处理" class="headerlink" title="0x140 用模块化的流图进行数字信号处理"></a>0x140 用模块化的流图进行数字信号处理</h2><p>为了处理数字信号，可以将整个流程的各个处理阶段（滤波、调制解调、分析、检测等等）作为模块来使用，然后用简单的指示箭头表示流程方向：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009071.png" alt=""></p>
+<p>当一个信号处理应用被创建时，一个完整的模块化流程图就建立起来了，这样的图在GNU Radio中称为<code>flowgraph</code>流图。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009081.png" alt=""></p>
+<p>GNU Radio就是利用这些信号处理模块，创建<code>flowgraph</code>，用来处理无线电信号的应用程序框架。</p>
+<p>作为GNU Radio用户，可以将现有的模块嵌入一个高层次的<code>flowgraph</code>流图用来处理更加复杂的数字信号，当所有模块和连线构建完毕，点击<code>运行</code>就能自动处理信号。</p>
+<p>GNU Radio带有非常非常多的模块，这里就列出几个常见的类别和他们的成员：</p>
+<h5 id="Waveform-Generators"><a href="#Waveform-Generators" class="headerlink" title="Waveform Generators"></a>Waveform Generators</h5><ul>
+<li><p>Constant Source</p>
+</li>
+<li><p>Noise Source</p>
+</li>
+<li><p>Signal Source</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<h5 id="Modulators"><a href="#Modulators" class="headerlink" title="Modulators"></a>Modulators</h5><ul>
+<li><p>AM Demod</p>
+</li>
+<li><p>Continuous Phase Modulation</p>
+</li>
+<li><p>PSK Mod / Demod</p>
+</li>
+<li><p>DPSK Mod / Demod</p>
+</li>
+<li><p>GMSK Mod / Demod</p>
+</li>
+<li><p>QAM Mod / Demod</p>
+</li>
+<li><p>WBFM Receive</p>
+</li>
+<li><p>NBFM Receive</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<h5 id="Instrumentation"><a href="#Instrumentation" class="headerlink" title="Instrumentation"></a>Instrumentation</h5><ul>
+<li><p>Constellation Sink</p>
+</li>
+<li><p>Frequency Sink</p>
+</li>
+<li><p>Histogram Sink</p>
+</li>
+<li><p>Number Sink</p>
+</li>
+<li><p>Time Raster Sink</p>
+</li>
+<li><p>Time Sink</p>
+</li>
+<li><p>Waterfall Sink</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<h5 id="Math-Operators"><a href="#Math-Operators" class="headerlink" title="Math Operators"></a>Math Operators</h5><ul>
+<li><p>Abs</p>
+</li>
+<li><p>Add</p>
+</li>
+<li><p>Complex Conjugate</p>
+</li>
+<li><p>Divide</p>
+</li>
+<li><p>Integrate</p>
+</li>
+<li><p>Log10</p>
+</li>
+<li><p>Multiply</p>
+</li>
+<li><p>RMS</p>
+</li>
+<li><p>Subtract</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<h5 id="Channel-Models"><a href="#Channel-Models" class="headerlink" title="Channel Models"></a>Channel Models</h5><ul>
+<li><p>Channel Model</p>
+</li>
+<li><p>Fading Model</p>
+</li>
+<li><p>Dynamic Channel Model</p>
+</li>
+<li><p>Frequency Selective Fading Model</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<h5 id="Filters"><a href="#Filters" class="headerlink" title="Filters"></a>Filters</h5><ul>
+<li><p>Band Pass / Reject Filter</p>
+</li>
+<li><p>Low / High Pass Filter</p>
+</li>
+<li><p>IIR Filter</p>
+</li>
+<li><p>Generic Filterbank</p>
+</li>
+<li><p>Hilbert</p>
+</li>
+<li><p>Decimating FIR Filter</p>
+</li>
+<li><p>Root Raised Cosine Filter</p>
+</li>
+<li><p>FFT Filter</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<h5 id="Fourier-Analysis"><a href="#Fourier-Analysis" class="headerlink" title="Fourier Analysis"></a>Fourier Analysis</h5><ul>
+<li><p>FFT</p>
+</li>
+<li><p>Log Power FFT</p>
+</li>
+<li><p>Goertzel collapse(Resamplers)</p>
+</li>
+<li><p>Fractional Resampler</p>
+</li>
+<li><p>Polyphase Arbitrary Resampler</p>
+</li>
+<li><p>Rational Resampler collapse(Synchronizers)</p>
+</li>
+<li><p>Clock Recovery MM</p>
+</li>
+<li><p>Correlate and Sync</p>
+</li>
+<li><p>Costas Loop</p>
+</li>
+<li><p>FLL Band-Edge</p>
+</li>
+<li><p>PLL Freq Det</p>
+</li>
+<li><p>PN Correlator</p>
+</li>
+<li><p>Polyphase Clock Sync</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<p>通过这些模块，很多标准处理流程，比如正交信号、同步、测量和可视化，都可以通过合适的模块连入流图来完成。</p>
+<p>此外，你还可以自己编写模块，比如一些与逻辑处理相结合或者新的自动化处理流程，或者用自己编写的模块进行数据输入或者输出操作也可以。</p>
+<p>所以，GNU Radio是主要用于信号处理的开发框架，它配备了很多标准模块库，供给开发人员建立各种通信或者信号处理系统。其实，GNU Radio本身并不是一个软件，你不能直接用它产生结果，它只是用来做准备工作，之后用户再用它来做自己想要做的事情，尽管它本身包含了很多案例，但可以只把它看成一堆模块就行了。</p>
+<h1 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h1><p>安装方法有很多种，GNU Radio也支持Win、Linux和Mac，但这里只介绍最稳定的Linux下的安装。</p>
+<h2 id="0x210-二进制包安装"><a href="#0x210-二进制包安装" class="headerlink" title="0x210 二进制包安装"></a>0x210 二进制包安装</h2><p>如果图省事，可以用发行版的源中带的gnuradio包，但GNU Radio更新很快，发行版提供的软件包很可能是过时的老版本（至少大版本一定要最新，也就是版本号的前两位），不然遇到了问题时候在官方的邮件列表支持中很少会有人回答。</p>
+<p>ubuntu/debian/kali：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-<span class="builtin-name">get</span> install gnuradio</span><br></pre></td></tr></table></figure>
+
+<p>fedora：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> gnuradio</span><br></pre></td></tr></table></figure>
+
+<p>对于其他的发行版，使用相应的包管理工具安装就行。</p>
+<p>如果要更新的版本或者在特殊平台的安装，可以看看GNU Radio官方源</p>
+<h2 id="0x220-pybombs安装（推荐）"><a href="#0x220-pybombs安装（推荐）" class="headerlink" title="0x220 pybombs安装（推荐）"></a>0x220 pybombs安装（推荐）</h2><p>pybombs是封装好的自动化程序，会自动下载源码包然后编译安装，过程中会自己下载依赖包，比自己下载源码编译安装省事很多。官网<a href="https://github.com/gnuradio/pybombs" target="_blank" rel="noopener">https://github.com/gnuradio/pybombs</a></p>
+<p><strong>因为某些原因，安装GNU Radio时候最好翻墙，拨VPN或者用SS代理都行</strong></p>
+<p>安装pip和pybombs</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt-get <span class="keyword">install</span> python-pip</span><br><span class="line"></span><br><span class="line">pip <span class="keyword">install</span> <span class="comment">--upgrade pip</span></span><br><span class="line"></span><br><span class="line">pip <span class="keyword">install</span> git+https://github.com/gnuradio/pybombs.git</span><br></pre></td></tr></table></figure>
+
+<p>获取安装库</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pybombs recipes <span class="built_in">add</span> <span class="keyword">gr</span>-recipes git+http<span class="variable">s:</span>//github.<span class="keyword">com</span>/gnuradio/<span class="keyword">gr</span>-recipes.git</span><br><span class="line"></span><br><span class="line">pybombs recipes <span class="built_in">add</span> <span class="keyword">gr</span>-etcetera git+http<span class="variable">s:</span>//github.<span class="keyword">com</span>/gnuradio/<span class="keyword">gr</span>-etcetera.git</span><br></pre></td></tr></table></figure>
+
+<p>安装到<code>/usr/local</code>目录，安装目录下会有<code>.pybombs</code>目录，配置文件保存在用户目录的<code>.pybombs</code>文件夹</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pybombs<span class="built_in"> prefix </span>init /usr/local -a myprefix -R gnuradio-default</span><br></pre></td></tr></table></figure>
+
+<p>默认会安装很多组件，如果安装到中途断了，再用上面的命令无法执行怎么办？</p>
+<p>可以删掉<code>/usr/local</code>下的<code>.pybombs</code>，然后整个重新安装，提示配置文件直接覆盖就行，如果只是个别组件导致的中断，可以先用<code>pybombs</code>卸载该组件，再重新安装，比如安装<code>rtl-sdr</code>出错：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pybombs <span class="keyword">remove</span> rtl-sdr</span><br><span class="line">pybombs <span class="keyword">install</span> rtl-sdr</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后检查组件，再加上一些没有自动安装的组件：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pybombs install osmo-sdr rtl-sdr gnuradio dump1090 hackrf bladeRF airspy <span class="keyword">gr</span>-iqbal libosmo-<span class="keyword">dsp</span> <span class="keyword">gr</span>-osmosdr gqrx</span><br></pre></td></tr></table></figure>
+
+<h5 id="GNSS-SDR在Ubuntu-16-04直接安装可能会出错，因为安装glog和gflags时候可能会因autoconf版本较高而导致编译错误，所以用pybombs将几个依赖包先装上再安装gnss-sdr即可："><a href="#GNSS-SDR在Ubuntu-16-04直接安装可能会出错，因为安装glog和gflags时候可能会因autoconf版本较高而导致编译错误，所以用pybombs将几个依赖包先装上再安装gnss-sdr即可：" class="headerlink" title="GNSS-SDR在Ubuntu 16.04直接安装可能会出错，因为安装glog和gflags时候可能会因autoconf版本较高而导致编译错误，所以用pybombs将几个依赖包先装上再安装gnss-sdr即可："></a>GNSS-SDR在Ubuntu 16.04直接安装可能会出错，因为安装<code>glog</code>和<code>gflags</code>时候可能会因<code>autoconf</code>版本较高而导致编译错误，所以用<code>pybombs</code>将几个依赖包先装上再安装<code>gnss-sdr</code>即可：</h5><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pybombs <span class="keyword">install</span> armadillo gflags glog gnutls</span><br><span class="line">pybombs <span class="keyword">install</span> gnss-sdr</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，执行环境变量脚本，然后执行<code>gnuradio-companion</code>就能打开界面，<code>gnuradio-config-info</code>可以查看版本修改配置：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local</span></span><br><span class="line">. <span class="string">./setup_env.sh</span></span><br><span class="line">gnuradio-config-info -v</span><br><span class="line">gnuradio-companion</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009082.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009105.png" alt=""></p>
+<h1 id="三、GRC的使用"><a href="#三、GRC的使用" class="headerlink" title="三、GRC的使用"></a>三、GRC的使用</h1><h2 id="0x310-准备工作"><a href="#0x310-准备工作" class="headerlink" title="0x310 准备工作"></a>0x310 准备工作</h2><p>在开始之前，先说说后面2-7小节，每个图片、grc文件和模块文件，都已经放到了<a href="https://github.com/gnuradio/gr-tutorial" target="_blank" rel="noopener">github</a>，可以下载下来作为参考，用两个目录分区分自己的目录和参考目录：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta-keyword">/root/</span>tutorials/solutions</span><br><span class="line"></span><br><span class="line"><span class="meta-keyword">/root/</span>tutorials/work</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x311-下载示例"><a href="#0x311-下载示例" class="headerlink" title="0x311 下载示例"></a>0x311 下载示例</h3><p>用git下载示例</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/gnuradio/gr-tutorial</span><br></pre></td></tr></table></figure>
+
+<p>之后如果找不到相应案例的教程，就去<code>github</code>上找</p>
+<h3 id="0x312-编译安装"><a href="#0x312-编译安装" class="headerlink" title="0x312 编译安装"></a>0x312 编译安装</h3><p>下载后进入目录编译安装即可：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="keyword">gr</span>-tutorial</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> build</span><br><span class="line"></span><br><span class="line"><span class="keyword">cd</span> build</span><br><span class="line"></span><br><span class="line">cmake ..</span><br><span class="line"></span><br><span class="line"><span class="keyword">make</span> -j8</span><br><span class="line"></span><br><span class="line"><span class="keyword">make</span> install</span><br><span class="line"></span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure>
+
+<p>如果要卸载，也很简单：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="keyword">gr</span>-<span class="keyword">tutorial</span></span><br><span class="line"></span><br><span class="line">make uninstall</span><br><span class="line"></span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x320-了解GRC"><a href="#0x320-了解GRC" class="headerlink" title="0x320 了解GRC"></a>0x320 了解GRC</h2><p>在第一章我们了解到GNU Radio可以用来开发无线电系统中的软件，而不是完全运行在硬件上。在这里我们介绍如何使用GNU Radio的图形化工具<code>GNU Radio Companion(GRC)</code>来创建不同的信号，我们可以使用<code>GRC</code>可以图形化创建Python文件，而不是在代码字符中编写，<code>GRC</code>是为了简化GNU Radio的使用而存在的。</p>
+<p>首先我们先了解下<code>GRC</code>界面，它由<code>模块库</code>、<code>工具栏</code>、<code>终端</code>和<code>工作区</code>四部分组成：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009095.png" alt=""></p>
+<h3 id="0x321-搜索模块"><a href="#0x321-搜索模块" class="headerlink" title="0x321 搜索模块"></a>0x321 搜索模块</h3><p>模块库里面的模块太多了，找一个模块一个个看太慢，点击工具栏的<code>放大镜</code>图标<img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009093.jpg" alt="">或者<code>Ctrl+F</code>快捷键，就能在<code>模块库</code>里面搜索自己需要的模块：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009094.png" alt=""></p>
+<p>找到了自己想用的模块，比如<code>QT GUI Time Sink</code>，<code>单击</code>模块名然后拖到工作区或者直接<code>双击</code>模块名也能将模块添加到工作区。</p>
+<h3 id="0x322-修改模块属性"><a href="#0x322-修改模块属性" class="headerlink" title="0x322 修改模块属性"></a>0x322 修改模块属性</h3><p><code>双击</code>工作区的模块或者在工作区的模块上<code>右键</code>-<code>属性</code>，进入到模块属性界面，比如工作区的<code>Option</code>模块：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009096.png" alt=""></p>
+<p>对于不同的任务可以修改不同的属性，当我们修改参数后，前面的名称就会变成蓝色，表示内容已经修改，但还没有保存，<code>Canvas Size</code>表示的是工作区大小，比如改成<code>300,300</code>，然后<code>OK</code>就可以看到工作区变得特别小，用<code>Ctrl+Z</code>和<code>Ctrl+Y</code>可以<code>撤销</code>或者<code>重做</code>，或者点击工具栏<img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009097.jpg" alt="">按钮也可以。</p>
+<p>我们打开<code>Option</code>模块属性中的说明，上面有说到，定义的<code>ID</code>就是模块保存python文件的名称。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009098.png" alt=""></p>
+<p>如果我们删除<code>ID</code>内容，再<code>Apply</code>应用，可以看到下面的错误提示信息，整个模块的标题变成红色，然后<code>ID</code>也变成红色，提示我们哪里有错：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009099.png" alt=""></p>
+<p>这里我们改成<code>tutorial_two_1</code>，确保<code>Generate Options</code>设置为<code>QT GUI</code>，<code>OK</code>保存：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009100.png" alt=""></p>
+<p>设置完成后，点击工具栏<img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009101.jpg" alt="">)或者<code>Ctrl+S</code>快捷键保存，将<code>GRC</code>流图保存为<code>t1.grc</code>，然后点击工具栏的<img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009102.jpg" alt="">或者<code>F5</code>生成<code>Python</code>文件，调用<code>*Generate* flowgraph</code>，在终端可以看到输出：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009103.png" alt=""></p>
+<p><code>GRC</code>只是一个图形化编辑器，通常情况下GNU Radio可以使用<code>Python</code>进行编程，但使用<code>GRC</code>图形化编辑更加简洁直观，<code>F5</code>会在<code>GRC</code>保存的目录生成以<code>ID</code>为名的<code>py</code>文件，之后点击工具栏的<img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009104.jpg" alt="">或者<code>F6</code>运行，其实就是执行之前生成<code>Python</code>文件，调用<code>*Execute* flowgraph</code>，可以看到终端输出：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009144.png" alt=""></p>
+<p>在桌面会出现这个程序生成的QT窗口：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009145.jpg" alt=""></p>
+<p>直接关闭窗口，或者点击工具栏<img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009146.jpg" alt="">按钮或者<code>F7</code>快捷键可以关闭窗口。</p>
+<p>关闭<code>GRC</code>编辑器后，直接执行生成的<code>tutorial_two_1.py</code>也能打开这个QT窗口。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python <span class="regexp">/root/</span>tutorials<span class="regexp">/work/</span>tutorial_two_1.py</span><br></pre></td></tr></table></figure>
+
+<p>所以<code>GRC</code>的本质只是一个Python的IDE。事实上，在模块属性或者模块的变量输入框都是<code>Python</code>生成的，也就是说，我们可以直接将<code>Python</code>调用作为输入，比如说调用一个<code>numpy</code>或者其他的GNU Radio函数作为输入。一个很常见的应用就是调用<code>filter.firdes</code>滤波器设计工具来构建我们自己的滤波器。</p>
+<p>还有就是，在设置窗口中，不同颜色的数据输入区域对应不同类型数据，在<code>Help</code>-&gt;<code>Type</code>可以看到对应：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009147.png" alt=""></p>
+<h3 id="0x323-第一个Flowgraph"><a href="#0x323-第一个Flowgraph" class="headerlink" title="0x323 第一个Flowgraph"></a>0x323 第一个Flowgraph</h3><p>为了更容易理解，我们构建一个<code>Flowgraph</code>流图，首先按照下图将各个模块添加到工作区，然后按照图示修改模块属性，再点击工具栏<img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009222.png" alt="">或者直接点击模块上突出的小方块进行连接。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009224.png" alt=""></p>
+<p>这里先说下<code>Throttle</code>模块，具体作用是啥以后再说，现在你只需知道这个模块可以确保这个<code>Flowgraph</code>不会将你的<code>CPU</code>跑到<code>100%</code>，防止你的电脑跑死。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009225.jpg" alt=""></p>
+<p>工具栏上的图标功能依次如下：</p>
+<p><code>新建</code> <code>打开</code> <code>保存</code> <code>关闭</code> <code>连线</code> <code>打印</code> <code>剪切</code> <code>复制</code> <code>粘贴</code> <code>删除</code> <code>撤销</code> <code>重做</code> <code>查错</code> <code>生成</code> <code>执行</code> <code>关闭</code> <code>逆时针旋转90°</code> <code>顺时针旋转90°</code> <code>启用模块</code> <code>禁用模块</code> <code>跳过模块</code> <code>隐藏禁用模块</code> <code>查找</code> <code>重载</code> <code>打开源码</code></p>
+<h3 id="0x324-查错"><a href="#0x324-查错" class="headerlink" title="0x324 查错"></a>0x324 查错</h3><p>如果有错，点击<code>Generate</code>按钮会在终端输出<code>log</code>，包括错误和警告。出现错误时候，工具栏查错按钮<img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009226.jpg" alt="">会显示出来，同时生成和执行按钮都变灰无法使用，点击查错按钮能够看到错误信息，比如我们在<code>Option</code>选项中设置为<code>WX GUI</code>，但我们的工作区放了一个<code>QT GUI</code>的模块，就可以看到模块标题变红，然后查错按钮显现，点击出现错误信息：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009234.png" alt=""></p>
+<h3 id="0x325-执行"><a href="#0x325-执行" class="headerlink" title="0x325 执行"></a>0x325 执行</h3><p>执行程序，可以看到两个正弦波输出，上面的<code>Re</code>和<code>Im</code>可以切换<code>实数</code>和<code>虚数</code>的输出显示。鼠标左键在图形上圈选可以放大，鼠标右键缩小。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009227.png" alt=""></p>
+<p>这是一个复杂的e<sup>jwt</sup>傅立叶变换正弦波，这里就不讨论复杂的信号了，只讲简单的操作。</p>
+<p>在模块的选项可以看到数据类型，如果将<code>Complex Float 32</code>数据类型改为<code>Float</code>，可以看到输入输出的颜色接口变成了橙色，</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009228.png" alt=""></p>
+<p>如果变更了超过两个模块的数据格式，却没有做到数据格式统一，就会报错，可以看到错误信息提示的出错地方：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009229.png" alt=""></p>
+<p>全部修改完毕后，命名为<code>tutorial_two_2</code>，生成后执行，可以看到就只有一个<code>实数</code>正弦波了：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009230.png" alt=""></p>
+<h2 id="0x330-使用Companion"><a href="#0x330-使用Companion" class="headerlink" title="0x330 使用Companion"></a>0x330 使用Companion</h2><p>现在已经能够创建<code>flowgraphs</code>流图了，那么可以开始使用<code>flowgraphs</code>研究GNU Radio中其他有用的功能了。</p>
+<h3 id="0x331-时间-amp-频率-Flowgraph"><a href="#0x331-时间-amp-频率-Flowgraph" class="headerlink" title="0x331 时间 &amp; 频率 Flowgraph"></a>0x331 时间 &amp; 频率 Flowgraph</h3><p>创建一个<code>Flowgraph</code>流图：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009231.png" alt=""></p>
+<ul>
+<li><p><code>Options</code>，<code>ID</code>为<code>tutorial_two_3</code></p>
+</li>
+<li><p><code>QT GUI Tab Widget</code>，<code>ID</code>为<code>tab</code>，<code>Num Tabs</code>为<code>2</code>，<code>Label 0</code>为<code>Time</code>，<code>Label 1</code>为<code>Frequency</code></p>
+</li>
+<li><p><code>QT GUI Range</code>，<code>ID</code>为<code>samp_rate</code>，<code>Default Value</code>为<code>5*freq</code>，<code>Start</code>为<code>0.5*freq</code>，<code>Stop</code>为<code>20*freq</code>，<code>Step</code>为<code>200</code></p>
+</li>
+<li><p><code>Variable</code>，<code>ID</code>为<code>freq</code>，<code>Value</code>为<code>2e3</code></p>
+</li>
+<li><p><code>Signal Source</code>，<code>Sample Rate</code>为<code>samp_rate</code>，<code>Frequency</code>为<code>freq</code>，<code>Waveform</code>为<code>Sine</code></p>
+</li>
+<li><p><code>Throttle</code>，<code>Sample Rate</code>为<code>32e3</code> (为什么要这么多后面会讲)</p>
+</li>
+<li><p><code>QT GUI Time Sink</code>，<code>GUI Hint</code>为<code>tab@0</code>，<code>QT GUI Frequency Sink</code>，<code>GUI Hint</code>为<code>tab@1</code></p>
+</li>
+</ul>
+<p>这个流图会绘制正弦波，并且有时间和频率滑块，使我们在保持频率不变的情况下能够动态调整采样率。</p>
+<h4 id="0x3311-采样率"><a href="#0x3311-采样率" class="headerlink" title="0x3311 采样率"></a>0x3311 采样率</h4><p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009232.png" alt=""></p>
+<p>我们勾选<code>4ms</code>的波形，可以看到在<code>10k</code>采样率下的正弦波行非常糟糕，我们可以通过移动滑块或者直接改输入框修改采样频率，不需要修改流图重新生成，比如调到最大<code>40k</code>，然后再用鼠标选<code>4ms</code>波形：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009233.png" alt=""></p>
+<h4 id="0x3312-Nyquist-Frequency-奈奎斯特速率"><a href="#0x3312-Nyquist-Frequency-奈奎斯特速率" class="headerlink" title="0x3312 Nyquist Frequency 奈奎斯特速率"></a>0x3312 Nyquist Frequency 奈奎斯特速率</h4><p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009235.png" alt=""></p>
+<p>在<code>10k</code>采样率，我们可以得到初始频率<code>2 KHz</code>，提高采样率，我们仍然会在<code>2 KHz</code>得到高峰，<code>奈奎斯特采样定理</code>告诉我们，如果采样率低于<code>2*original_signal_freq</code>，波形将会失真，我们将无法再现信号波形，虽然教科书上这么说，但我们不相信，让我们将采样率下调到<code>3.85 KHz</code>，看看时间波形是什么？</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009236.png" alt=""></p>
+<p>看起来不像一个正弦波，而且我们的眼睛会被欺骗，让我们转向FFT得到其他频率。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009237.png" alt=""></p>
+<p>我们看到的频率不再是<code>2 KHz</code>，也不像我们输入的信号，而且，也高于奈奎斯特率<code>0.15 KHz</code>，这是因为信号具有<code>折叠性</code>，所以<code>0.15 KHz</code>低于实际频率。这就是利用GNU Radio 模拟DSP进行的一次信号完整性检查。</p>
+<p>更详细的解释请看<a href="http://www.dspguide.com/ch3/2.htm" target="_blank" rel="noopener">采样率</a>和<a href="http://www.dspguide.com/ch12/2.htm" target="_blank" rel="noopener">FFT快速傅氏变换</a></p>
+<h4 id="0x3313-关于Resampling重采样"><a href="#0x3313-关于Resampling重采样" class="headerlink" title="0x3313 关于Resampling重采样"></a>0x3313 关于Resampling重采样</h4><p>现在我们已经知道了奈奎斯特，也知道了问题是怎么出现的，如果我们不考虑速率的话，可以了解下<code>Resampling重采样</code>。重采样用于改变信号的采样率，用于满足另一个系统的要去，比如声卡的采样率。重采样有两个重要方面：<code>插值</code>和<code>抽取</code>，<code>插值</code>增加采样点，<code>抽取</code>删除采样点。这里我们用一个例子来理解它们：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009238.png" alt=""></p>
+<ul>
+<li><p><code>Options</code>，<code>ID</code>为<code>tutorial_two_4</code></p>
+</li>
+<li><p><code>Variable</code>，<code>ID</code>为<code>samp_rate</code>，<code>Value</code>为<code>48e3</code></p>
+</li>
+<li><p><code>Signal Source</code>，<code>Frequency</code>为<code>1e3</code>，<code>Waveform</code>为<code>Cosine</code></p>
+</li>
+<li><p><code>Rational Resampler</code>，都改成<code>Float--&gt;Float</code>，一个<code>Interpolation</code>为<code>4</code>，一个<code>Decimation</code>为<code>4</code></p>
+</li>
+<li><p><code>Throttle</code>，<code>Sample Rate</code>为<code>samp_rate</code> </p>
+</li>
+<li><p><code>QT GUI Time Sink</code>，<code>GUI Hint</code>清空，<code>Number of Inputs</code>为<code>3</code>，<code>Config</code>栏目打开，<code>Line 1 Label</code>为<code>Normal</code>，<code>Line 2 Label</code>为<code>Interpolated</code>，<code>Line 3 Label</code>为<code>Decimated</code></p>
+</li>
+</ul>
+<p>默认情况下，<code>Line 1</code>为<code>蓝色</code>，<code>Line 2</code>为<code>红色</code>，<code>Line 3</code>为<code>绿色</code>，颜色和线宽都可以在<code>Config</code>中调整，让我们看看输出的波形是咋样的？</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009278.png" alt=""></p>
+<p>我们可以看到，通过重采样/抽取/插值的方法，可以改变原始信号的采样速率。所以，我们在一个非标准采样率的信号上进行标准采样率的信号采集，可以得到比原始信号更高或者更低的频率。</p>
+<p>当我们设计硬件接口或者调制解调器的时候如果想要提高工作效率，这一点非常重要。</p>
+<p>#####注意：尽管这个程序能运行并得出结果，但可能会意外停止或者假死，因为<code>QT Sink</code>不允许同时绘制不同采样率信号波形图，所以最好是每一个采样率的信号都用一个单独的<code>QT Sink</code>。这里只是一个简单样例用于对比。</p>
+<h2 id="0x340-如何使用INSERT-BLOCK-NAME-HERE"><a href="#0x340-如何使用INSERT-BLOCK-NAME-HERE" class="headerlink" title="0x340 如何使用INSERT_BLOCK_NAME_HERE"></a>0x340 如何使用INSERT_BLOCK_NAME_HERE</h2><p>如果要显示多个图形有很多种方法，比如说我们有一个大屏幕，我们可以用<code>GUI Hint</code>中的<code>Grid Position</code>网格表示法来划分，或者给每个输入创建一个不同的<code>sinks</code>。</p>
+<h3 id="0x341-Grid-Position"><a href="#0x341-Grid-Position" class="headerlink" title="0x341 Grid Position"></a>0x341 Grid Position</h3><p>GRC提供了好几种图形<code>sink</code>和图形空间来创建<code>wx-gui</code>流图(<code>scope sink, fft sink, number sink, waterfall sink, constellation sink, slider control, and chooser control</code>) ，每个图形元素都有精确定位的网格位置参数。</p>
+<p>网格位置参数形式是4个整数（行，列，行宽，列宽）。行和列指定图形元素左上角的位置，最小位置<code>0,0</code>，指定网格的左上角。</p>
+<p>如果参数留空，这个网格参数指定的图形元素会按照从上到下竖直排列，大小为前面图形最大大小，如果不想让你的图形竖着排列，请不要将参数留空。</p>
+<p>行宽和列宽指定拉伸程度，或者说图形所占据的行宽和列宽，行宽从行号开始向下占据的总行数，列宽从列号开始向右占据的总列数，因此，行宽和列宽最少是<code>1,1</code>，占据一个网格单元。每一</p>
+<p>比如说，用户希望放置一个位2行2列的滑块，占据2行4列，再放一个文本框在5行0列，占据4行2列：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009279.png" alt=""></p>
+<p>在<code>WX GUI</code>中新的图形的行号和列号必须大于前一个图形<code>行+行宽</code>和<code>列+列宽</code>，不然会报错。<code>QT GUI</code>中的<code>GUI Hit</code>属性类似，但<code>QT GUI</code>可以被覆盖，也就是说，行号和列号设置不当不会报错，只会让结果图形出现覆盖现象。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009280.png" alt=""></p>
+<p><code>QT GUI Time Sink</code>的<code>GUI Hit</code>分别为：<code>0,0,2,2</code> <code>1,1,3,2</code> <code>0,1,1,2</code>，运行效果如下：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009323.png" alt=""></p>
+<p>有很多种方法用于改变参数变量比如<code>Chooser</code>，也有不同的信号显示方法比如<code>Waterfall Sink</code>，现在我们从最基础的开始学习，我们可以选择任何模块，然后看它的文档，再找出使用的方法。</p>
+<h3 id="0x342-检查Probe-Signal-Block"><a href="#0x342-检查Probe-Signal-Block" class="headerlink" title="0x342 检查Probe Signal Block"></a>0x342 检查Probe Signal Block</h3><p>当我们在<code>mail list</code>被问到怎么用<code>Probe Signal Block</code>时候，可以先添加一个<code>Porbe Signal</code>模块，将<code>ID</code>设置为<code>probe_signal</code>，然后将数据格式设置为<code>Float</code>，请看下面的属性和文档：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009324.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009325.png" alt=""></p>
+<p>通过文档可以知道，这个模块的函数是<code>level()</code>，需要和<code>Function Probe</code>模块一起使用：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009326.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009327.png" alt=""></p>
+<p>首先，我们同样要给它一个<code>ID</code>，叫<code>probe_var</code>，再看看文档，要求<code>Block ID</code>必须是流图中另一个模块的<code>ID</code>，所以我们将<code>Block ID</code>设置为<code>Probe Signal</code>模块的<code>ID</code>也就是<code>probe_signal</code>。文档还是告诉我们，<code>Function Name</code>必须是那个模块的<code>类``class method</code>，而且这个函数需要传递参数，如果没有参数，就将函数参数位置留空，前面看到<code>Probe Signal</code>模块的函数是<code>level()</code>，没有参数，所以这里就将<code>Function Name</code>设置为<code>level</code>即可。</p>
+<h3 id="0x343-显示文本信息"><a href="#0x343-显示文本信息" class="headerlink" title="0x343 显示文本信息"></a>0x343 显示文本信息</h3><p>如果加上<code>Signal Source</code>和<code>Throttle</code>，然后执行上面的流图会发现什么输出都没有，弹出的窗口里面是空的。所以，我们还需要一种方法来显示数据。我们不能再加一个<code>Sink</code>，因为<code>Probe Signal</code>这个模块本身就是一个<code>Sink</code>，这时候我们就需要搜下<code>QT</code>找找能用的显示模块：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009328.png" alt=""></p>
+<p>可以看到有一堆<code>Sink</code>，但在这里选择要用的就行。可以看到<code>QT GUI</code>有8个模块可以选用，前后那6个看着像数据输入用的，这里也需要（可以自己都试试），所以这里使用<code>QT GUI Entry</code>和<code>QT GUI Label</code>来显示数据，我们将<code>Default Value</code>改成<code>Function Probe</code>模块的<code>ID</code>，也就是<code>probe_var</code>，数据格式改为<code>Float</code>，输出结果如下：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009329.png" alt=""></p>
+<h3 id="0x344-Throttle模块"><a href="#0x344-Throttle模块" class="headerlink" title="0x344 Throttle模块"></a>0x344 Throttle模块</h3><p>这里我们讲一下，为什么所有的流图都要用<code>Throttle</code>模块，先看下用与没用<code>Throttle</code>模块的正弦波流图上的系统资源监控对比：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009330.png" alt=""></p>
+<p>CPU i7-4790，分给虚拟机双核四线程</p>
+<p>很明显可以看到，没有连接硬件的情况下，CPU基本跑满了，在整个流图中，只需要有一个<code>Throttle</code>模块就行，哪怕有很多个<code>sources/sinks</code>。<code>Throttle</code>模块的作用可以理解为限速：速度越高我们流图运行的速度越高，速度越低流图运行的速度越低。我们如果将<code>Throttle</code>模块的采样率调到<code>1e10</code>比调到<code>1e8</code>(CPU配置低就调的更低一些防止跑死)的CPU负载要高很多。</p>
+<p>再就是<code>Throttle</code>模块会强加给硬件一个吞吐率的限制，所以在使用硬件的时候，不要使用<code>Throttle</code>模块。</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">hardware</span>:</span><br><span class="line"></span><br><span class="line">     do_not_use_throttle</span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">     use_one_throttle</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x345-采样率不匹配"><a href="#0x345-采样率不匹配" class="headerlink" title="0x345 采样率不匹配"></a>0x345 采样率不匹配</h3><p>之前说过很多硬件需要正确的采样率才能正常运行，这里讲讲采样率不匹配的例子。我们建立如下流图：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009331.png" alt=""></p>
+<ul>
+<li><p><code>Chooser</code>，配置<code>3</code>个不同采样率的采样，分别为<code>48000</code>，<code>24000</code>和<code>160000</code>，数据类型<code>Float</code></p>
+</li>
+<li><p><code>Variable</code>，<code>ID</code>为<code>audio_rate</code>，<code>Value</code>为<code>48000</code></p>
+</li>
+<li><p><code>Signal Source</code>，<code>Sampling Rate</code>都为<code>samp_rate</code></p>
+</li>
+<li><p>所有的<code>sinks (audio, time, frequency)</code>，<code>Sampling Rate</code>都为<code>audio_rate</code></p>
+</li>
+</ul>
+<p>我们可以看到没有<code>Throttle</code>模块，并且注意到，虽然将audio音频采样率设置为变量，但在流图运行时是无法改变的，这是因为这个xml文件没有合适的回调来支持这个功能（具体在下一章会讲）</p>
+<p>当我们将采样率设置为<code>48000</code>时候，可以听到熟悉的电话拨号音，也能看到FFT频率在350Hz到440Hz之间。</p>
+<p>如果采样率不管是高于或者低于音频采样率，使声卡收到的信号频率较高或者较低，都无法听到拨号音。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009332.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009333.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009334.png" alt=""></p>
+<p>所以，请确保采样率总保持一致，否则会导致我们的数据中存在频率的升降。关于采样率更多的介绍可以看附录。</p>
+<h3 id="0x346-唱歌的正弦波"><a href="#0x346-唱歌的正弦波" class="headerlink" title="0x346 唱歌的正弦波"></a>0x346 唱歌的正弦波</h3><p>之前学习了这么多，现在我们可以结合<code>probe</code>，<code>soundcard</code>以及<code>QT Instrumentation Sinks</code>制作一个会唱歌的正弦波，流图如下：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009346.png" alt=""></p>
+<ul>
+<li><p><code>Variable</code>，<code>ID</code>为<code>samp_rate</code>，<code>Value</code>为<code>48000</code></p>
+</li>
+<li><p><code>Porbe Signal</code>，<code>ID</code>为<code>probe_signal</code></p>
+</li>
+<li><p><code>Signal Source</code>，<code>Sampling Rate</code>都为<code>samp_rate</code>，一个<code>Waveform</code>为<code>Triangle</code>，频率为<code>100e-6</code>，另一个频率为<code>20e3*probe_var</code>，<code>Amplitude</code>为<code>500e-3</code></p>
+</li>
+<li><p><code>QT GUI Tab Widget</code>的<code>ID</code>改为<code>tab</code>，另外两个<code>QT GUI Sink</code>的<code>GUI Hint</code>分别为<code>tab@0</code>和<code>tab@1</code></p>
+</li>
+</ul>
+<p>其他如图设置即可，在这里，我们能够通过观察这个流图来创建它（仅仅只是一个测试）。不要忘了修改<code>Audio Sink</code>的采样率，因为声卡只能输出特定的频率。当设置好全部，打开音箱，运行，看看有什么效果？瀑布图是咋样的？</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/1591061009347.png" alt=""></p>
+<h2 id="0x350-小结"><a href="#0x350-小结" class="headerlink" title="0x350 小结"></a>0x350 小结</h2><p>在学习python之前，先要学习GRC，这一章讲的就是GRC的用法。</p>
+<h2 id="文章参考"><a href="#文章参考" class="headerlink" title="文章参考"></a>文章参考</h2><p><a href="http://gnuradio.org/redmine/projects/gnuradio/wiki/Guided_Tutorials" target="_blank" rel="noopener">http://gnuradio.org/redmine/projects/gnuradio/wiki/Guided_Tutorials</a></p>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css"><script type="text/javascript" src="/js/donate.js" successtext="复制成功!"></script><a class="pos-f tr3" id="github" href="https://github.com/Kaiyuan/donate-page" target="_blank" rel="noopener" arget="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="PayPal"><a href="https://paypal.me/WhiteA10n3" target="_blank"></a></li><li id="AliPay" qr="/img/AliPayQR.png"></li><li id="WeChat" qr="/img/WeChatQR.png"></li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="tags"><a href="/tags/%E6%97%A0%E7%BA%BF/"><i class="fa fa-tag"></i>无线</a></div><div class="post-nav"><a class="pre" href="/Debian%E5%AE%89%E8%A3%85BCM94352%E9%A9%B1%E5%8A%A8/">Debian安装BCM94352驱动</a><a class="next" href="/%E4%BB%8E%E9%9F%A9%E5%9B%BD%E8%BF%94%E4%BA%AC/">从韩国返京</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'DMvc4Cxt8whC7d4dX0ysFmXE-gzGzoHsz',
+  appKey:'8i8vBc78aHMgXoKi1rz4CzKa',
+  placeholder:'Just so so',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://github.white-alone.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IoT/">IoT</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mood/">Mood</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Radio/">Radio</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Travel/">Travel</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/%E7%BD%91%E7%AB%99/" style="font-size: 15px;">网站</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/%E9%A9%B1%E5%8A%A8/" style="font-size: 15px;">驱动</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E6%97%A0%E7%BA%BF%E7%94%B5/" style="font-size: 15px;">软件无线电</a> <a href="/tags/%E6%97%A0%E7%BA%BF/" style="font-size: 15px;">无线</a> <a href="/tags/NAS/" style="font-size: 15px;">NAS</a> <a href="/tags/Ubuntu/" style="font-size: 15px;">Ubuntu</a> <a href="/tags/Debian/" style="font-size: 15px;">Debian</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 15px;">软件</a> <a href="/tags/%E5%BF%83%E8%AF%AD/" style="font-size: 15px;">心语</a> <a href="/tags/%E6%97%85%E8%A1%8C/" style="font-size: 15px;">旅行</a> <a href="/tags/IoT/" style="font-size: 15px;">IoT</a> <a href="/tags/Andriod/" style="font-size: 15px;">Andriod</a> <a href="/tags/Root/" style="font-size: 15px;">Root</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/">使用srsLTE搭建4G基站用于日常测试</a></li><li class="post-list-item"><a class="post-list-link" href="/%E5%A6%82%E4%BD%95%E8%87%AA%E5%BB%BAIoT%E5%AE%9E%E9%AA%8C%E5%AE%A4_1/">如何自建IoT实验室（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/%E5%A6%82%E4%BD%95%E8%87%AA%E5%BB%BAIoT%E5%AE%9E%E9%AA%8C%E5%AE%A4_2/">如何自建IoT实验室（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/GNU%20Radio%203.8.0.0%E5%AE%89%E8%A3%85/">GNU Radio 3.8.0.0安装</a></li><li class="post-list-item"><a class="post-list-link" href="/OpenBTS%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">OpenBTS使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/Ubuntu%2018.04%E9%85%8D%E7%BD%AEGNURadio%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/">Ubuntu 18.04配置GNURadio基础环境</a></li><li class="post-list-item"><a class="post-list-link" href="/%E8%8D%A3%E8%80%80X2_Root/">华为荣耀X2 GEM-703L B211 ROOT方法</a></li><li class="post-list-item"><a class="post-list-link" href="/GNURadio%E6%95%99%E7%A8%8B_3/">GNU Radio教程（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/%E4%B8%89%E4%B8%87%E8%8B%B1%E5%B0%BA%E7%9A%84%E4%B8%83%E5%A4%95/">三万英尺的七夕</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://www.t00ls.net/" title="T00ls" target="_blank">T00ls</a><ul></ul><a href="http://unicorn.360.cn/" title="UnicornTeam" target="_blank">UnicornTeam</a><ul></ul><a href="https://www.jarviswang.me/" title="Jarvis" target="_blank">Jarvis</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">White-Alone.</a>| <a rel="nofollow" target="_blank" href="http://www.miitbeian.gov.cn/">  京ICP备16029179号 </a>| <img class="nofancybox" src="/img/beian.png" style="margin-bottom: -4px;"/><a rel="nofollow" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode= /">  京公网安备11010502037135号</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

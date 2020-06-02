@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="github.white-alone.com"><title>GNU Radio教程（三） | White-Alone</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">GNU Radio教程（三）</h1><a id="logo" href="/.">White-Alone</a><p class="description">蝴蝶再美 终究飞不过沧海</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">GNU Radio教程（三）</h1><div class="post-meta">2016-09-08<span> | </span><span class="category"><a href="/categories/Radio/">Radio</a></span><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span></div><a class="disqus-comment-count" href="/GNURadio%E6%95%99%E7%A8%8B_3/#vcomment"><span class="valine-comment-count" data-xid="/GNURadio%E6%95%99%E7%A8%8B_3/"></span><span> 条评论</span></a><div class="post-content"><h1 id="五、配合硬件使用Gnu-Radio"><a href="#五、配合硬件使用Gnu-Radio" class="headerlink" title="五、配合硬件使用Gnu Radio"></a>五、配合硬件使用Gnu Radio</h1><p>到目前为止，本系列教程讲的都是通过围绕Gnu Radio为中心，将它作为原型仿真开发平台进行开发。而Gnu Radio平台的一大优势，就是从仿真到现实世界操作特别容易。在本章， 我们就回顾下前面学到的知识，并用它创造出现实世界中的无线电发射机和接收机。</p>
+<p>在本章教程中，我们将带你将之前设计的QPSK发射器转变为真正的无线电发射机。除此之外，我们还将很轻松的创造一个FM收音机，用来接收当地的FM广播电台。在学习的过程中，我们同时会讨论一些与现实世界无线电硬件工作相关的一些问题和建议。</p>
+<h2 id="0x510-模拟仿真-vs-现实世界"><a href="#0x510-模拟仿真-vs-现实世界" class="headerlink" title="0x510 模拟仿真 vs 现实世界"></a>0x510 模拟仿真 vs 现实世界</h2><p>从模拟仿真到现实世界的迁移通常都会带来很多新的问题新的挑战，无线电与射频领域是非常复杂的学科，在建立现实中的无线电系统时候，需要考虑很多很多问题。在通信系统设计时候，除了理论方面的问题，还有硬件方面的损耗问题，主要是物理介质(比如无线或者信道)\同步设计等等。</p>
+<p>要了解更多有关现实世界的无线电障碍，有一个很不错的45分钟视频教程，来自于Matt Ettus在某场会议上的讲述，网址<a href="https://www.youtube.com/watch?v=wqKNUXDdIvU" target="_blank" rel="noopener">YouTube: Practical Software Radio</a></p>
+<p>如果你想要了解更多有关Gnu Radio的无线电损耗，检查硬件损耗情况，可以看这些配置<a href="http://gnuradio.org/redmine/projects/gnuradio/repository/show/gr-channels/grc?utf8=%E2%9C%93&rev=maint" target="_blank" rel="noopener">/gr-channels/grc.</a></p>
+<h2 id="0x520-我们需要什么？"><a href="#0x520-我们需要什么？" class="headerlink" title="0x520 我们需要什么？"></a>0x520 我们需要什么？</h2><p>如果你在一个现实世界没有无线电硬件设备可以用，这套教程依然很有用。在第一部分(发射)会教你硬件接口方面的基础知识。对于第二部分，你可以用来自于现实无线电设备的数据记录，用这些没有处理过的原始数据进行测试，我们提供了一份数据记录，可以在<a href="https://github.com/gnuradio/gr-tutorial/blob/master/examples/tutorial6/fm_101.8MHz_1Msps.cfile" target="_blank" rel="noopener">gr-tutorials repository</a>找到，你可以用这份数据在你的流图中模拟硬件进行采样。</p>
+<p>当然，如果你有一套软件无线电的硬件来运行Gnu Radio，这套教程的作用就更大了。现在有很多而且越来越多的供应商在提供Gnu Radio驱动兼容硬件，从最便宜的几十块钱的接收器到几百几千万的集成系统，因有尽有。</p>
+<p>本教程的全部内容基本上都可以用一个简单的、低带宽的、半双工无线电硬件设备完成。大部分的教程，你只要有一个能接收而且频率范围可以调到FM频段的无线电硬件就可以完成，比如RTL2832U方案的电视棒。大多数国家的FM频率范围从87MHz到108MHz，使用的也是大同小异的的地波或者天波。</p>
+<h2 id="0x530-安全问题和法律事项"><a href="#0x530-安全问题和法律事项" class="headerlink" title="0x530 安全问题和法律事项"></a>0x530 安全问题和法律事项</h2><p>在本教程中，我们需要发射的信号，所以不能将发射天线接口直接连接到频谱分析仪或者其他测试设备上，如果不直接连接到接收设备，就会直接发射到空中。需要注意的是，如果发射天线接口没有任何形式的负载，大功率信号发射时候，空载有可能会损坏发射端无线电设备，或者因为信号太强，损坏接收端无线电设备。所以，一般情况下，在任何硬件任何线缆连接到射频信号发射端天线接口之前，在信号通路上加一个衰减器。</p>
+<p>另外，你需要遵守你所在国家或者地区的无线电相关法律规定。不发射肯定不违法，将信号直接发射给分析仪也是个很好的选择，如果你没有分析仪的话，我建议发射部分看看就行，别实际执行流图。</p>
+<h2 id="0x540-使用-UHD-模块"><a href="#0x540-使用-UHD-模块" class="headerlink" title="0x540 使用 UHD 模块"></a>0x540 使用 UHD 模块</h2><p>在这里我们是用的硬件是Ettus的<a href="http://b200.ettus.com/" target="_blank" rel="noopener">USRP B200</a>，驱动用的<a href="https://github.com/EttusResearch/uhd" target="_blank" rel="noopener">UHD驱动</a>。所以，本教程中所用的硬件<code>sources</code>信号源和<code>sinks</code>接收器都是来自<a href="http://gnuradio.org/redmine/projects/gnuradio/repository/revisions/master/show/gr-uhd" target="_blank" rel="noopener">gr-uhd</a>模块。</p>
+<p>如果你用的是不同的无线电硬件，就应该用硬件供应商所建议的模块。不同的硬件用不同的模块，比如电视棒使用的<a href="http://sdr.osmocom.org/trac/wiki/GrOsmoSDR" target="_blank" rel="noopener">gr-osmosdr</a>。</p>
+<p>为了使用<code>UHD</code>模块，你必须安装UHD驱动，有很多种方法来安装，官方提供了<a href="http://code.ettus.com/redmine/ettus/projects/uhd/wiki" target="_blank" rel="noopener">安装教程</a>。如果你的<code>UHD</code>驱动是从源码编译安装的，在<code>CMake</code>编译输出中可以看到<code>gr-uhd</code>在组建清单中，编译安装完成后，在<code>GNU Radio Companion</code>中就能看到<code>UHD</code>模块组。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/1591061153995.png" alt=""></p>
+<h2 id="0x550-创建一个-QPSK-发射器"><a href="#0x550-创建一个-QPSK-发射器" class="headerlink" title="0x550 创建一个 QPSK 发射器"></a>0x550 创建一个 QPSK 发射器</h2><h5 id="在阅读本节之前，请仔细阅读前面的法律事项，你需要为你的空中发射行为全权负责！"><a href="#在阅读本节之前，请仔细阅读前面的法律事项，你需要为你的空中发射行为全权负责！" class="headerlink" title="在阅读本节之前，请仔细阅读前面的法律事项，你需要为你的空中发射行为全权负责！"></a>在阅读本节之前，请仔细阅读前面的法律事项，你需要为你的空中发射行为全权负责！</h5><h3 id="0x551-再次回顾-QPSK"><a href="#0x551-再次回顾-QPSK" class="headerlink" title="0x551 再次回顾 QPSK"></a>0x551 再次回顾 QPSK</h3><p>在这里，我们会用到上一章节讲Python编程时候创建的<code>QPSK</code>流图，在那个教程中，你解调一个<code>QPSK</code>信号并将结果保存到一个文件里，在这里，不再是解调信号，我们将产生并发射一个<code>QPSK</code>信号。</p>
+<p>我们需要删除解调模块和文件接收模块，留下<code>QT Constellation Sink</code>模块，最后流程图应该是这样的：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/1591061154003.png" alt=""></p>
+<p>当然，你可以可以直接下载这个<a href="https://raw.githubusercontent.com/gnuradio/gr-tutorial/master/examples/tutorial6/gr-tutorial-qpsk-tx.grc" target="_blank" rel="noopener">流图</a>。</p>
+<p>如果执行这个流图，可以看到你的<code>QPSK</code>信号的星座图(有一些模拟噪声):</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/1591061154004.png" alt=""></p>
+<h3 id="0x551-从模拟到真实发射"><a href="#0x551-从模拟到真实发射" class="headerlink" title="0x551 从模拟到真实发射"></a>0x551 从模拟到真实发射</h3><p>现在，我们将从模拟转到真实发射！首先，连接你的发射天线到你的频谱分析仪(如果你打算真正的发射信号)。</p>
+<p>由于我们不再有模拟的信号，因此需要移除噪声源和加法器，而且因为我们有一个真实的硬件设备会限制速率，所以也不需要<code>throttle</code>模块，事实上，如果保在流图中留<code>throttle</code>模块的话，很可能会和<code>UHD</code>设备的速率限制冲突，影响性能(更多相关信息，可以看看<a href="http://gnuradio.org/redmine/projects/gnuradio/wiki/FAQ#When-do-I-use-a-throttle-block" target="_blank" rel="noopener">FAQ</a>)</p>
+<p>将模拟仿真转变成真实的无线系统是很容易的，我们在UHD Sink里找到UHD USRP Sink模块，然后添加到刚才的流图的最后的输出当中，当做流图的信号发射模块。</p>
+<h3 id="0x552-配置-UHD-Sink-参数"><a href="#0x552-配置-UHD-Sink-参数" class="headerlink" title="0x552 配置 UHD Sink 参数"></a>0x552 配置 UHD Sink 参数</h3><p>Gnu Radio支持变量模块，用户可以创建变量模块，然后通过修改变量模块的参数值来改变整个流图的参数值，这样做非常方便。复制和粘贴<code>samp_rate</code>变量模块两次，修改参数用来控制中心频率<code>freq</code>和增益<code>gain</code>，设置的频率和增益取决于你的硬件支持。我们选择<code>2.421GHz</code>为中心频率，增益设置为<code>30dB</code>,这是这个设备所支持的最大发射增益的<code>1/3</code>。</p>
+<p>现在，可以利用新的变量模块来调整UHD设备的参数了。打开<code>UDH Sink</code>模块的参数设置窗口(双击或者右键-属性)，可以看到一个参数列表，这里有很多参数需要我们调整，向下拉滚动条到列表底部，相应在<code>General</code>和<code>RF Options</code>中设置一下属性：</p>
+<ul>
+<li><p><code>Samp Rate (Sps): samp_rate</code></p>
+</li>
+<li><p><code>Ch0: Center Freq (Hz): freq</code></p>
+</li>
+<li><p><code>Ch0: Gain (dB): gain</code></p>
+</li>
+<li><p><code>Ch0: Antenna: TX/RX</code></p>
+</li>
+<li><p><code>Ch0: Bandwidth (Hz): samp_rate</code></p>
+</li>
+</ul>
+<p>要特别注意的一点是，在<code>UHD Sink</code>中任何大于<code>1.0</code>的值都会导致数模转换器饱和，从而引起削波失真，也就是说大于<code>1</code>的振幅都会在<code>1</code>那里截断，所以，通常幅度值都会小于<code>1.0</code>，比如说，我们添可以加一个<code>0.5</code>的乘法器，就可以保证输出是在正确的幅度。</p>
+<p>最后，流程图如下：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/1591061154015.png" alt=""></p>
+<p>如果照着说明创建有问题，也可以直接<a href="https://raw.githubusercontent.com/gnuradio/gr-tutorial/master/examples/tutorial6/gr-tutorial-qpsk-tx-uhd.grc" target="_blank" rel="noopener">下载</a></p>
+<h3 id="0x553-一台运行的软件无线电发射机"><a href="#0x553-一台运行的软件无线电发射机" class="headerlink" title="0x553 一台运行的软件无线电发射机"></a>0x553 一台运行的软件无线电发射机</h3><p>如果执行流程图，你应该可以看到正常的初始化和GUI启动，区别在于这是真实的而不是模拟的，你真真切切的在发射<code>QPSK</code>信号。因为我们的<code>TX</code>信号同时有<code>QT Constellation Sink</code>和<code>UHD Sink</code>，所以，我们在Gnu Radio中看星座图的同时，也可以在分析仪中看到它(如果分析仪支持<code>QPSK</code>解码的话)。</p>
+<p>如果我们用频谱分析仪看下频谱，可以清楚的看到这个信号的频率正是我们选择的频率。如果看不到，请仔细检查下你的参数设置，或者尽量调高接收增益。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/1591061154028.jpg" alt=""></p>
+<p>好了，到这里你已经创建了一个完整的<code>QPSK</code>软件无线电发射机了！</p>
+<h2 id="0x560-创建一个FM广播接收机"><a href="#0x560-创建一个FM广播接收机" class="headerlink" title="0x560 创建一个FM广播接收机"></a>0x560 创建一个FM广播接收机</h2><p>在本节中，我们将构建一个可以用来收听当地FM广播电台的FM接收机。这部分教程是基于<code>Balint Seeber</code>编写的<a href="http://files.ettus.com/tutorials/" target="_blank" rel="noopener">系列教程</a>。</p>
+<h3 id="0x561-创建软件无线电频谱分析仪"><a href="#0x561-创建软件无线电频谱分析仪" class="headerlink" title="0x561 创建软件无线电频谱分析仪"></a>0x561 创建软件无线电频谱分析仪</h3><p>这是一个最基本的(也是非常有用的)用法，你可以在使用Gnu Radio接收信号时候，能够在一个小窗口看到实时的FFT图像，这就是一个软件无线电频谱分析仪。这是很重要的一步，可以验证你的无线电硬件是否能正常运行，然后我们可以用它来确定你做在地区的广播台频率，之后将频率调过去。</p>
+<p>创建一个新的流图，添加<code>UHD: USRP Source</code>和<code>QT GUI Sink</code>到工作区，在上一节，我们的频率和增益使用静态变量，在这里我们让它们实时可调。找到<code>QT GUI Range</code>，添加两个到流图中，打开每一个窗口，命名并填入适合你所用硬件的相应参数范围，下面是我所填写的适合<code>USRP B200</code>的参数设置：</p>
+<h5 id="QT-GUI-Range-1"><a href="#QT-GUI-Range-1" class="headerlink" title="QT GUI Range 1:"></a>QT GUI Range 1:</h5><ul>
+<li><p><code>ID: freq</code></p>
+</li>
+<li><p><code>Label: freq</code></p>
+</li>
+<li><p><code>Default Value: 1e9</code></p>
+</li>
+<li><p><code>Start: 70e6</code></p>
+</li>
+<li><p><code>Stop: 6e9</code></p>
+</li>
+<li><p><code>Step: 10e6</code></p>
+</li>
+</ul>
+<h5 id="QT-GUI-Range-2"><a href="#QT-GUI-Range-2" class="headerlink" title="QT GUI Range 2:"></a>QT GUI Range 2:</h5><ul>
+<li><p><code>ID: gain</code></p>
+</li>
+<li><p><code>Label: gain</code></p>
+</li>
+<li><p><code>Default Value: 0</code></p>
+</li>
+<li><p><code>Start: 0</code></p>
+</li>
+<li><p><code>Stop: 74</code></p>
+</li>
+<li><p><code>Step: 1</code></p>
+</li>
+</ul>
+<p>修改你的变量模块参数<code>samp_rate</code>为你感兴趣的值，这里我设置为<code>32 MSps</code>。现在，打开<code>UHD: USRP Source</code>的属性，和上一节设置的参数一样，先设置<code>range blocks</code>的对应<code>ID</code>和参数，之后设置<code>UHD Source</code>参数如下：</p>
+<ul>
+<li><p><code>Samp Rate (Sps): samp_rate</code></p>
+</li>
+<li><p><code>Ch0: Center Freq (Hz): freq</code></p>
+</li>
+<li><p><code>Ch0: Gain (dB): gain</code></p>
+</li>
+<li><p><code>Ch0: Antenna: TX/RX</code></p>
+</li>
+<li><p><code>Ch0: Bandwidth (Hz): samp_rate</code></p>
+</li>
+</ul>
+<p>最后流图如下：</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/1591061154016.png" alt=""></p>
+<p>同样的，也可以直接<a href="https://raw.githubusercontent.com/gnuradio/gr-tutorial/master/examples/tutorial6/gr-tutorial-simple-spec-an.grc" target="_blank" rel="noopener">下载</a>。</p>
+<h3 id="0x562-使用你的软件无线电频谱分析仪"><a href="#0x562-使用你的软件无线电频谱分析仪" class="headerlink" title="0x562 使用你的软件无线电频谱分析仪"></a>0x562 使用你的软件无线电频谱分析仪</h3><p>运行流图，可以实时看到收到的信号频谱，通过滑块或者直接在文本框修改参数，可以看到图形会实时更新显示效果，而且Gnu Radio默认的<code>QT FFT Sink</code>有很多很有用的功能，比如平保均值和峰值保留，可以花一点时间来熟悉它们。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/1591061154017.png" alt=""></p>
+<h3 id="0x563-创建FM广播接收机"><a href="#0x563-创建FM广播接收机" class="headerlink" title="0x563 创建FM广播接收机"></a>0x563 创建FM广播接收机</h3><p>现在，你已经掌握了能让接收到的数据实时显示的基本接收器应用，让我们开始构建一个有用的应用程序吧！关闭现在的流程图，因为我们将在流图中集成更多的功能而不是替换现有功能。</p>
+<p>首先，正如你所猜测的，我们需要添加一些模块到流图，找到并添加一下功能模块：</p>
+<ul>
+<li><code>1x Rational Resampler</code></li>
+<li><code>1x WBFM Receiver</code></li>
+<li><code>1x Audio Sink</code></li>
+<li><code>2x Variable</code></li>
+</ul>
+<p>我们的数据传输路线为:<code>USRP Source --&gt; Rational Resampler --&gt; WBFM Receiver --&gt; Audio Sink</code>，按照这个顺序连接这些模块，Gnu Radio会用红色高亮指示出有错误的地方。我们现在通过配置修改参数来解决这些错误。</p>
+<p>其次，我们先添加两个新的变量模块，给它们创建两个变量：</p>
+<h5 id="Variable"><a href="#Variable" class="headerlink" title="Variable:"></a>Variable:</h5><ul>
+<li><code>ID: audio_interp</code></li>
+<li><code>Value: 4</code><h5 id="Variable-1"><a href="#Variable-1" class="headerlink" title="Variable:"></a>Variable:</h5></li>
+<li><code>ID: audio_rate</code></li>
+<li><code>Value: 48e3</code></li>
+</ul>
+<p>我们还要调整之前设置的采样率变量，修改这个变量值为<code>250e3</code>(250 kHz):</p>
+<h5 id="Variable-samp-rate"><a href="#Variable-samp-rate" class="headerlink" title="Variable: samp_rate"></a>Variable: samp_rate</h5><ul>
+<li><code>ID: samp_rate</code></li>
+<li><code>Value: 250e3</code></li>
+</ul>
+<p>下面再设置三个新的模块：</p>
+<h5 id="Audio-Sink"><a href="#Audio-Sink" class="headerlink" title="Audio Sink"></a>Audio Sink</h5><p>这个模块功能很简单的模块，就是输入信号流之后通过喇叭播放出来。这个模块在<code>gr-audio</code>库，这是Gnu Radio发布的核心功能之一。有一些常用的声卡采样率配置，最常见的就是<code>48 khz</code>，这就是我们将要使用的(按照这个配置你的<code>audio_rate</code>变量)。</p>
+<p>打开<code>Audio Sink</code>的参数设置，设置为:</p>
+<ul>
+<li><code>Sample Rate: audio_rate</code></li>
+<li><code>OK to Block: &quot;No&quot;</code></li>
+</ul>
+<p>现在，我们只需要打开硬件设备采样到数据，就能通过扬声器播放出来！当然，还需要两个模块来处理数据。</p>
+<h5 id="Rational-Resampler"><a href="#Rational-Resampler" class="headerlink" title="Rational Resampler"></a>Rational Resampler</h5><p>我们设置USRP Source的速率为<code>samp_rate</code>，也就是我们刚刚设置的<code>250e3</code>。设置<code>Audio Sink</code>的采样率为<code>audio_rate</code>，值为<code>48e3</code>。但是，我们还有个问题，我们的信源采样率不是音频速率的整数倍:<code>250000 / 48000 = 5.208</code>，为了解决这个问题，我们必须进行重采样，这就需要用到<code>Rational Resampler</code>模块，在这里重新采样进行匹配，从而将输入数据流的速率转换成输出流的速率。</p>
+<p>重采样模块可以调整数据流速率，它通过插值或者抽取来达到目标采样率。打开这个模块的属性，调整模块参数：</p>
+<p>将<code>Type</code>改为<code>Complex-&gt;Complex</code>，从而告知模块使用复数。现在我们还需要调整实际速率，在这里需要理解一点，如果我们设置的是不同的非常规采样率，代码会将数据进行GCD计算让它能够”勉强”使用。我们知道进来的数据采样率是<code>250 kSps</code>，那我们将抽取值<code>Decimation</code>设定成一样的。但因为采样率是浮点数，所以设置抽取值时候需要注意将其转换为整型，我们可以用Python的函数<code>int()</code>进行转换。</p>
+<p>我们还需要设定插值<code>Interpolation</code>速率，这里有个”难点”，因为后面的<code>WBFM</code>模块会进行一个四次抽取，所以我们需要告诉模块之后会输出四次，知道了这些，我们可以利用<code>audio_rate</code>和<code>audio_interp</code>设置。</p>
+<p>在这里，最后设置如下：</p>
+<ul>
+<li><code>Type: Complex-&gt;Complex (Complex Taps)</code></li>
+<li><code>Interpolation: audio_rate * audio_interp</code></li>
+<li><code>Decimation: int(samp_rate)</code></li>
+</ul>
+<p>通过将抽头<code>Taps</code>参数留空，我们告知模块通过电脑自动计算抽头。当没有滤波器抽头生成时候，<code>Fractional BW</code>参数会影响低通滤波器的效果，将这个参数设置为0，我们会只使用一个合理的缺省值。</p>
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><p>根据你的硬件参考时钟的准确性，你可能需要调整插值区间和上限。这可能是你需要处理的诸多硬件问题之一。当我第一次运行这个流图的时候，听到了很大的噪音，后来我调整了插值速率，噪音就没有了，我最终设置的参数是：</p>
+<ul>
+<li><code>Interpolation: int(1.05 * (audio_rate * audio_interp))</code></li>
+<li><code>Decimation: int(samp_rate)</code></li>
+</ul>
+<p>后面我们设置最后一个模块。</p>
+<h5 id="WBFM-Receiver"><a href="#WBFM-Receiver" class="headerlink" title="WBFM Receiver"></a>WBFM Receiver</h5><p>这个模块的配置非常简单，打开模块参数设置，只有两个参数需要设置：输入速率和抽取速率，这两个参数都是已知的，我们只配置了输出的重采样速率，而且我们知道这个速率除以四等于<code>audio_rate</code>，所以我们设置的参数:</p>
+<ul>
+<li><code>Quadrature Rate: audio_rate * audo_interp</code></li>
+<li><code>Audio Decimation: audio_interp</code></li>
+</ul>
+<h3 id="0x564-一个正常运行的软件无线电FM广播接收机"><a href="#0x564-一个正常运行的软件无线电FM广播接收机" class="headerlink" title="0x564 一个正常运行的软件无线电FM广播接收机"></a>0x564 一个正常运行的软件无线电FM广播接收机</h3><p>现在，在整个流图中应该不会看到任何红色的错误提示，说明这个流图是正确的，最后看到的流图应该如下:</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/1591061154018.png" alt=""></p>
+<p>同样的，你也可以直接<a href="https://raw.githubusercontent.com/gnuradio/gr-tutorial/master/examples/tutorial6/gr-tutorial-broadcast-fm-rx.grc" target="_blank" rel="noopener">下载</a></p>
+<p>运行这个流图后，应该会弹出一个类似下面的窗口，然后将频率调整为当地的FM广播电台频率，应该就可以通过计算机的扬声器播放解调后的FM广播。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/GNU_Radio%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/1591061154024.png" alt=""></p>
+<h2 id="0x570-结论"><a href="#0x570-结论" class="headerlink" title="0x570 结论"></a>0x570 结论</h2><p>学到这里，你已经成功建立了使用Gnu Radio的真实无线电发射机和接收机，虽然都只是很简单的应用，但也说明当涉及到硬件接口时，Gnu Radio的模块化所展现的灵活性和能力。这也证明了使用Gnu Radio从仿真模拟到现实世界运行程序，是很容易的事情。</p>
+<h2 id="测验"><a href="#测验" class="headerlink" title="测验"></a>测验</h2><p>1、设置一个信号源数据流速率为<code>1 Msps</code>，音频设备工作在<code>32 kHz</code>，该怎么设置用于重采样输入数据流的插值和抽取参数值？</p>
+<p>2、如果音频设备工作在<code>44.1 kHz</code>呢？是否有合理的插值和抽取整数值能够产生满足这种重采样？你该如何使用任意PFB重采样替代呢？</p>
+<h2 id="文章参考"><a href="#文章参考" class="headerlink" title="文章参考"></a>文章参考</h2><p><a href="http://gnuradio.org/redmine/projects/gnuradio/wiki/Guided_Tutorials" target="_blank" rel="noopener">http://gnuradio.org/redmine/projects/gnuradio/wiki/Guided_Tutorials</a></p>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css"><script type="text/javascript" src="/js/donate.js" successtext="复制成功!"></script><a class="pos-f tr3" id="github" href="https://github.com/Kaiyuan/donate-page" target="_blank" rel="noopener" arget="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="PayPal"><a href="https://paypal.me/WhiteA10n3" target="_blank"></a></li><li id="AliPay" qr="/img/AliPayQR.png"></li><li id="WeChat" qr="/img/WeChatQR.png"></li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="tags"><a href="/tags/%E6%97%A0%E7%BA%BF/"><i class="fa fa-tag"></i>无线</a></div><div class="post-nav"><a class="pre" href="/%E8%8D%A3%E8%80%80X2_Root/">华为荣耀X2 GEM-703L B211 ROOT方法</a><a class="next" href="/%E4%B8%89%E4%B8%87%E8%8B%B1%E5%B0%BA%E7%9A%84%E4%B8%83%E5%A4%95/">三万英尺的七夕</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'DMvc4Cxt8whC7d4dX0ysFmXE-gzGzoHsz',
+  appKey:'8i8vBc78aHMgXoKi1rz4CzKa',
+  placeholder:'Just so so',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10'
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://github.white-alone.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IoT/">IoT</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mood/">Mood</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Radio/">Radio</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Travel/">Travel</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/%E7%BD%91%E7%AB%99/" style="font-size: 15px;">网站</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/%E9%A9%B1%E5%8A%A8/" style="font-size: 15px;">驱动</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E6%97%A0%E7%BA%BF%E7%94%B5/" style="font-size: 15px;">软件无线电</a> <a href="/tags/%E6%97%A0%E7%BA%BF/" style="font-size: 15px;">无线</a> <a href="/tags/NAS/" style="font-size: 15px;">NAS</a> <a href="/tags/Ubuntu/" style="font-size: 15px;">Ubuntu</a> <a href="/tags/Debian/" style="font-size: 15px;">Debian</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 15px;">软件</a> <a href="/tags/%E5%BF%83%E8%AF%AD/" style="font-size: 15px;">心语</a> <a href="/tags/%E6%97%85%E8%A1%8C/" style="font-size: 15px;">旅行</a> <a href="/tags/IoT/" style="font-size: 15px;">IoT</a> <a href="/tags/Andriod/" style="font-size: 15px;">Andriod</a> <a href="/tags/Root/" style="font-size: 15px;">Root</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/%E4%BD%BF%E7%94%A8srsLTE%E6%90%AD%E5%BB%BA4G%E5%9F%BA%E7%AB%99%E7%94%A8%E4%BA%8E%E6%97%A5%E5%B8%B8%E6%B5%8B%E8%AF%95/">使用srsLTE搭建4G基站用于日常测试</a></li><li class="post-list-item"><a class="post-list-link" href="/%E5%A6%82%E4%BD%95%E8%87%AA%E5%BB%BAIoT%E5%AE%9E%E9%AA%8C%E5%AE%A4_1/">如何自建IoT实验室（一）</a></li><li class="post-list-item"><a class="post-list-link" href="/%E5%A6%82%E4%BD%95%E8%87%AA%E5%BB%BAIoT%E5%AE%9E%E9%AA%8C%E5%AE%A4_2/">如何自建IoT实验室（二）</a></li><li class="post-list-item"><a class="post-list-link" href="/GNU%20Radio%203.8.0.0%E5%AE%89%E8%A3%85/">GNU Radio 3.8.0.0安装</a></li><li class="post-list-item"><a class="post-list-link" href="/OpenBTS%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">OpenBTS使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/Ubuntu%2018.04%E9%85%8D%E7%BD%AEGNURadio%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/">Ubuntu 18.04配置GNURadio基础环境</a></li><li class="post-list-item"><a class="post-list-link" href="/%E8%8D%A3%E8%80%80X2_Root/">华为荣耀X2 GEM-703L B211 ROOT方法</a></li><li class="post-list-item"><a class="post-list-link" href="/GNURadio%E6%95%99%E7%A8%8B_3/">GNU Radio教程（三）</a></li><li class="post-list-item"><a class="post-list-link" href="/%E4%B8%89%E4%B8%87%E8%8B%B1%E5%B0%BA%E7%9A%84%E4%B8%83%E5%A4%95/">三万英尺的七夕</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://www.t00ls.net/" title="T00ls" target="_blank">T00ls</a><ul></ul><a href="http://unicorn.360.cn/" title="UnicornTeam" target="_blank">UnicornTeam</a><ul></ul><a href="https://www.jarviswang.me/" title="Jarvis" target="_blank">Jarvis</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">White-Alone.</a>| <a rel="nofollow" target="_blank" href="http://www.miitbeian.gov.cn/">  京ICP备16029179号 </a>| <img class="nofancybox" src="/img/beian.png" style="margin-bottom: -4px;"/><a rel="nofollow" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode= /">  京公网安备11010502037135号</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
