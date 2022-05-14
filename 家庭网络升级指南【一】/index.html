@@ -38,7 +38,7 @@
 <p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97%E3%80%90%E4%B8%80%E3%80%91/1652515756179.png" alt="HS8145x6配置"></p>
 <p>升级光猫，一般不用考虑用它的wifi，因为通常单买个更强的wifi路由才是最佳选择，毕竟光猫一般都在弱电箱，很难做到全屋wifi覆盖。当然，现在的好光猫性能都不错，很多还支持mesh，性价比还是非常高的，有的同学就用K662c组MESH。<br>在选择挂感冒一般就看CPU的性能、RAM大小、光MAC速度、LAN口速度，再就是光猫的体积，毕竟一般都要塞进弱电箱，太大的不好放。另外，因为弱电箱一般都是密闭空间，散热不好，所以发热和耐热这一点也是光猫选型的重要因素之一。最后，最重要的还是价格，毕竟技术一直在进步，没必要花大价钱，太浪费了。当初升级光猫的时候，我就在B610和HS8145x6之间选择了后者，同样的CPU，但后者价格便宜了一百多。</p>
 <p>在选择好型号后，就可以在网上买了，不管是淘宝还是闲鱼，都有很多运营商的供货商、回收伤、装维人员家属在卖各种各样的光猫，这时候就会有很多比较眼生的词汇，比如补全Shell、原生界面、改SN、改MAC、调试服务等等。这时候不要眼花缭乱，也不要盲目听从卖家的胡扯，如果当地只需要LOID认证，就直接买全新的光猫就行，不需要补全shell那些，除非自己闲的慌想折腾，还懒得在网上找补全的方法，花钱买省事也可以。</p>
-<p><strong>==注意: GPON和EPON虽然大多数光猫可以互换，但操作很麻烦，所以在买的时候最好不要买错! #F44336==</strong></p>
+<p><strong><font color=red>注意: GPON和EPON虽然大多数光猫可以互换，但操作很麻烦，所以在买的时候最好不要买错! </font></strong></p>
 <p>如果需要MAC和SN认证，如果自己不会/不想折腾，就买卖家配置好，可以通过命令修改参数的，或者干脆让卖家帮你先配好或者收到货了让他远程帮你调试。</p>
 <p><strong>大部分光猫在网上都能找到修改的方法，如果没有动手能力和钻研精神，还是建议花钱买省事比较好</strong></p>
 <p><strong>补全Shell：</strong> 光猫的正式系统版本一般会删掉一些Shell命令，然后一些开发人员或者售后运维人员通过升级或者刷机的的方式补全shell命令文件，这样可玩性会高很多，但光猫作为一个上网终端，不建议瞎折腾，稳定好用就好。</p>
@@ -47,16 +47,17 @@
 <p><strong>改模式、SN和MAC：</strong> 在补全Shell后，可以telent或者ssh登陆光猫，使用命令修改EPON/GPON模式、MAC地址、SN。</p>
 <p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97%E3%80%90%E4%B8%80%E3%80%91/1652517200743.png" alt="华为光猫修改SN和MAC"></p>
 <p>买到光猫后，就可以设置了，以杭州电信GPON为例，打开光猫的登陆页面，设备注册，选择区域为浙江，然后输入LOID，确定，就可以用默认的超级账号密码登陆了。【不同地区的默认超级密码不同】<br>账号：telecomadmin<br>密码：nE7jA%5m</p>
-<p><img src="./images/1652517562723.png" alt="华为光猫注册LOID"></p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97%E3%80%90%E4%B8%80%E3%80%91/1652520379592.png" alt="华为光猫注册LOID"></p>
 <p>登陆进去可以看到已经注册成功。</p>
-<p><img src="./images/1652517876130.png" alt="LOID注册成功"><br>如果注册失败，就检查下LOID的设置是否正确，当地运营商是否绑定了光猫的SN和MAC地址。</p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97%E3%80%90%E4%B8%80%E3%80%91/1652520469460.png" alt="LOID注册成功"></p>
+<p>如果注册失败，就检查下LOID的设置是否正确，当地运营商是否绑定了光猫的SN和MAC地址。</p>
 <p>LOID注册成功之后参照之前旧的光猫进行设置，一般要注意的是上网的VID和IPTV用的Other，个别地区可能还要设置TR069。</p>
-<p><img src="./images/1652518341333.png" alt="INTERNET上网VID设置"></p>
-<p><strong>==这些配置参照老光猫设置就行，各地各运营商的VID都不一样，所以步骤可以在网上找到很多教程，但参数一定不要随便照搬教程里的！ #F44336==</strong></p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97%E3%80%90%E4%B8%80%E3%80%91/1652520492745.png" alt="INTERNET上网VID设置"></p>
+<p><strong><font color=red>这些配置参照老光猫设置就行，各地各运营商的VID都不一样，所以步骤可以在网上找到很多教程，但参数一定不要随便照搬教程里的！</font></strong></p>
 <p>比如杭州电信配置上网VID是41，TR069是46，IPTV是43</p>
-<p><img src="./images/1652518531427.png" alt="配置完成后的网络侧信息"></p>
+<p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97%E3%80%90%E4%B8%80%E3%80%91/1652520531706.png" alt="配置完成后的网络侧信息"></p>
 <p>然后在千兆口插上网线，连上WIFI路由，在WIFI路由里设置成拨号模式，然后输入自己的宽带账号密码，能正常上网就可以了。如果不能上网，就对比检查一下老光猫和新光猫，看看哪里配置不一样导致的问题。</p>
-<p><strong>==最后，记得打开光猫的防火墙，将密码设置为强密码！ #F44336==</strong></p>
+<p><strong><font color=red>最后，记得打开光猫的防火墙，将密码设置为强密码！ </font></strong></p>
 <h3 id="0x23-小节"><a href="#0x23-小节" class="headerlink" title="0x23 小节"></a>0x23 小节</h3><p>今天就先写到这里，光猫作为家庭宽带的入口，安全性其实也很重要，国内就曾经出过光猫感染蠕虫被组成僵尸网络的事件。</p>
 <p>后面还有猫棒、软路由、wifi、nas等等系列文章。</p>
 <p>最后，如果觉得文章对你有帮助，可以请我喝杯咖啡，谢谢~~</p>
