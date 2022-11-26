@@ -5,10 +5,10 @@
 <p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/11%E4%BB%A312%E4%BB%A3%E4%BB%A5%E5%8F%8A%E6%B5%B7%E5%85%89CPU%E6%9C%8D%E5%8A%A1%E5%99%A8ESXi%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98/1669452595443.png" alt="nuc9软路由"><br>因为NUC9是计算卡+PCIE底板的结构，就看了下最新的计算卡，然后就整了一台最新的NUC12BTMi9猛兽峡谷。</p>
 <p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/NUC12_%E6%B5%B7%E5%85%89CPU%E6%9C%8D%E5%8A%A1%E5%99%A8ESXi%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98/1669451034922.png" alt="nuc12btmi9"></p>
 <p>然后发现NUC11还有的2个PCIE插槽到了NUC12就剩1个了，让人无语，虽然可以插一块SDR100的PCIE卡，但终究不爽，不过板载的10G+2.5G口还可以。</p>
-<h1 id="0x02-ESXi无法安装的问题"><a href="#0x02-ESXi无法安装的问题" class="headerlink" title="0x02 ESXi无法安装的问题"></a>0x02 ESXi无法安装的问题</h1><p>既然没法做sdr测试机，那就服务器试试吧，毕竟12代i9的性能还是杠杠的，然后安装esxi时候就坑了。</p>
+<h1 id="0x02-ESXi无法安装的问题"><a href="#0x02-ESXi无法安装的问题" class="headerlink" title="0x02 ESXi无法安装的问题"></a>0x02 ESXi无法安装的问题</h1><p>既然没法做sdr测试机，那就做ESXi服务器试试吧，毕竟12代i9的性能还是杠杠的，然后安装esxi时候就坑了。</p>
 <p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/11%E4%BB%A312%E4%BB%A3%E4%BB%A5%E5%8F%8A%E6%B5%B7%E5%85%89CPU%E6%9C%8D%E5%8A%A1%E5%99%A8ESXi%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98/1669451612545.png" alt="esxi紫屏"></p>
 <p>先排除了内存问题，看报错感觉像是CPU的问题，于是打算再找几个没跑过esxi的机器上试试，果然，在i9-11900K的台式机和国产海光CPU的服务器上，也遇到了这个问题，可以初步判断是ESXi支持的CPU列表中没有这几款CPU导致的。</p>
-<h1 id="0x03-解决问题的方法"><a href="#0x03-解决问题的方法" class="headerlink" title="0x03 解决问题的方法"></a>0x03 解决问题的方法</h1><p>在安装ESXi的时候，引导后，按<code>Shift+O</code>键。<br>进入命令行后，在<code>runweasel cdromBoot</code>除了后输入<code>autoPartitionOSDataSize=4096</code>用于减小<code>VMFSL</code>空间，再加上<code>cpuUniformityHardCheckPanic=FALSE</code>来取消CPU的检查，之后回车继续安装。</p>
+<h1 id="0x03-解决问题的方法"><a href="#0x03-解决问题的方法" class="headerlink" title="0x03 解决问题的方法"></a>0x03 解决问题的方法</h1><p>在安装ESXi的时候，引导后，按<code>Shift+O</code>键。<br>进入命令行后，在<code>runweasel cdromBoot</code>之后输入<code>autoPartitionOSDataSize=4096</code>用于减小<code>VMFSL</code>空间，再加上<code>cpuUniformityHardCheckPanic=FALSE</code>来取消CPU的检查，之后回车继续安装。</p>
 <p>安装完成后，如果直接重启还会遇到紫屏问题，需要重新按<code>Shift+O</code>键来输入取消检查的命令，每次启动都这样做太麻烦了。</p>
 <p>所以安装完成后，先开启SSH，登录进去后，执行命令关闭CPU启动检查功能就可以了。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esxcli system settings kernel set -s cpuUniformityHardCheckPanic -v FALSE</span><br></pre></td></tr></table></figure>
