@@ -6,7 +6,7 @@
   <link href="http://github.white-alone.com/atom.xml" rel="self"/>
   
   <link href="http://github.white-alone.com/"/>
-  <updated>2023-12-21T14:53:26.058Z</updated>
+  <updated>2023-06-03T04:24:59.275Z</updated>
   <id>http://github.white-alone.com/</id>
   
   <author>
@@ -15,30 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>知识星球</title>
-    <link href="http://github.white-alone.com/%E7%9F%A5%E8%AF%86%E6%98%9F%E7%90%83/"/>
-    <id>http://github.white-alone.com/%E7%9F%A5%E8%AF%86%E6%98%9F%E7%90%83/</id>
-    <published>2023-12-21T21:38:54.000Z</published>
-    <updated>2023-12-21T14:53:26.058Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="0x01-引言"><a href="#0x01-引言" class="headerlink" title="0x01 引言"></a>0x01 引言</h1><p>马上就2024了，在2023年迎来了三宝的到来，大宝也开始了小学生涯，生活的鸭梨更大了一些。在各位兄弟的帮助下，买下了大一点的房子，以后在家里也能有个小实验室了，虽然距离B站创始人的实验室还有若干差距，但至少有了一个好的开始，不是么^_^</p><pre><code>[探秘！B站联合创始人的《钞能力实验室》](https://www.bilibili.com/video/BV1bu4y1w7dh/)</code></pre><h1 id="0x02-目标"><a href="#0x02-目标" class="headerlink" title="0x02 目标"></a>0x02 目标</h1><p>2024年，会更聚焦于硬件安全方向，欠下来的债要还，挖的坑要填，2023年还是折腾了不少东西的，但都因为种种原因没有展示出来发布出来，24年会酌情放出。</p><p>CUBE是很多朋友期待了很久的极客玩具，我会尽早设计完善出来，经过了这么多年，科技一直在进步，CUBE的芯片方案、功能需求其实也一直在迭代优化，加上自己的想法也很杂散，所以一直做做停停改改，一直没有让自己满意，希望在24年能和大家见面，拖延症不能再拖了。。。</p><h1 id="0x03-知识星球"><a href="#0x03-知识星球" class="headerlink" title="0x03 知识星球"></a>0x03 知识星球</h1><p>曾经架设了IoT Craftsman论坛，但发现论坛这种形式已经没落了，微信、QQ等即时聊天工具又太零散，又不是电商搞私域运营，而Blog终究只是个信息发布平台，在简单调研了几个平台后，决定还是启用曾经创建的知识星球。</p><p><strong>这个知识星球，有年费门槛，经济状况不允许的朋友请优先保障生活质量！</strong></p><p>主要会分享一些IT数码电子、IoT硬件无线电安全等方向的教程、文章、文件等，频率不会太高。</p><p>目前给自己定的要求是：<br>1、每月至少更新1篇原创文章<br>2、每周都要抽时间出来回答提问</p><p>此外，等新房子装修空置好，搬家之前要清理一大批乱七八糟的设备，打算作为抽奖奖品发给成员~~<br>所以如果加入了星球，务必登记好信息。</p><p><strong>成员超过50就开始抽奖╰(<em>°▽°</em>)╯</strong></p><h1 id="0x04-未来"><a href="#0x04-未来" class="headerlink" title="0x04 未来"></a>0x04 未来</h1><p>看知识星球的实际运营情况吧，也会邀请合伙人、嘉宾或者管理员来一起分享。</p><p>至于cube之类的产品后续如果有产出有交互，到时候再看是以论坛还是交流群还是星球的方式运营。</p><h1 id="0x05-最后"><a href="#0x05-最后" class="headerlink" title="0x05 最后"></a>0x05 最后</h1><p>这个Blog还会继续存在，以后也还会继续更新分享一些文章教程，只不过会比星球有一定延迟而已【感谢打赏过的朋友】。</p><p>虽然过去了那么多年，虽然已经是三个孩子的父亲，也早就不孤独了，但我还是我，”不孤独” 的 “小白”，继续保持谦卑的心态，不忘初心，方得始终。</p><p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/%E7%9F%A5%E8%AF%86%E6%98%9F%E7%90%83/1703167156373.jpg" alt="知识星球"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;0x01-引言&quot;&gt;&lt;a href=&quot;#0x01-引言&quot; class=&quot;headerlink&quot; title=&quot;0x01 引言&quot;&gt;&lt;/a&gt;0x01 引言&lt;/h1&gt;&lt;p&gt;马上就2024了，在2023年迎来了三宝的到来，大宝也开始了小学生涯，生活的鸭梨更大了一些。在各位兄</summary>
-      
-    
-    
-    
-    <category term="Home" scheme="http://github.white-alone.com/categories/Home/"/>
-    
-    
-    <category term="知识" scheme="http://github.white-alone.com/tags/%E7%9F%A5%E8%AF%86/"/>
-    
-  </entry>
   
   <entry>
     <title>ESXi不认SN640/SN750等SSD的问题解决方法</title>
@@ -505,6 +481,31 @@
     
     
     <category term="ESXi" scheme="http://github.white-alone.com/tags/ESXi/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>家庭万兆局域网记录</title>
+    <link href="http://github.white-alone.com/%E5%AE%B6%E5%BA%AD%E4%B8%87%E5%85%86%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%B0%E5%BD%95/"/>
+    <id>http://github.white-alone.com/%E5%AE%B6%E5%BA%AD%E4%B8%87%E5%85%86%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%B0%E5%BD%95/</id>
+    <published>2020-06-06T19:18:00.000Z</published>
+    <updated>2020-06-07T00:48:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>来杭州后，为了将USRP-2943也就是USRP X310一套用起来，家用一整套基本都更新换代了，这里简单记录下：</p><p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/%E5%AE%B6%E5%BA%AD%E4%B8%87%E5%85%86%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%B0%E5%BD%95/%E8%87%AA%E5%BB%BA%E5%AE%B6%E7%94%A8%E5%A4%9A%E5%AA%92%E4%BD%93%E4%B8%AD%E5%BF%83.png" alt=""></p><ol><li>入口是光猫，之后接到3865U的软路由，跑的ESXi，虚拟了自己编译的LEDE用来做网关，包括梯子、内网穿透、广告过滤等等插件。还有一个RouterOS，用于DHCP，LEDE的DHCP不如ROS的好用。</li></ol><ol start="2"><li>软路由后面就是Mikrotik的CRS309-1G-8S+IN桌面万兆交换机，安静好用，系统切换到了SwOS，速度杠杠的。</li></ol><ol start="3"><li>WIFI用的是Netgear的Orbi路由套件， 以后应该会换到WIFI 6的AP+AC或者Mesh路由，ASUS的TUF AX3000好像不错，如果要性价比就华为的AX3Pro。</li></ol><ol start="4"><li>NAS用的QNAP TS-873，里面2个PCI-E插槽，一个插了一块丽台P600的显卡用于8K解码，一块是intel X520万兆网卡，1块SSD装系统和应用，剩下的是8T和12T的西数企业盘。自从群晖丢过资料后，就切换到了QNAP，再后面用DS1819被垃圾智障的虚拟化、收费的docker还没有nat，就再不用群晖了，太垃圾。至于照片自动同步备份、视频在线解码播放、文件共享、TimeMachine等，那是NAS的基本功能，做私有云盘妥妥的。QNAP自带的内网穿透速度一般，所以我安装了zerotier做补充。</li></ol><ol start="5"><li>NAS的虚拟化和Docker做的很棒</li></ol><ul><li>跑了Gogs做私人git</li><li>跑了个Ubuntu做Linux本地镜像源，因为经常要重装系统部署环境，每次从公网apt下载太慢了，直接本地部署一个，万兆局域网秒下</li><li>跑了个Win7运行各种PT、BT、百度云、腾讯云、迅雷等下载器</li><li>跑了个开源leanote蚂蚁笔记服务器，做私人笔记</li><li>跑了个couchdb的docker，给小书匠做数据库同步【小书匠是一个非常好用的markdown编辑器，功能非常齐全，兼容各种blog发布、图床，很方便，如果觉得好用要注册VIP可以加上我的邀请码 71_orujhl】</li></ul><ol start="6"><li>家用Sever当前是自己DIY的，主板ASUS Z10PA-D8，CPU只上了一路 Xeon E5-2682 v4 16核32线程，内存2x32合计64G，运行ESXi虚拟出各种开发、调试、测试的系统。以后按需要再扩充第二路CPU和内存。网卡也是intel X520万兆网卡，WIFI是PCI-E直通AX200，还有一块SDR卡也是PCI-E直通。</li></ol><ol start="7"><li>主力机是ROG X570-E配AMD R7-3800X，现在AMD确实香。</li></ol><ol start="8"><li>UPS用的ADPT的网络UPS，QNAP和ESXi都能通过网络关联上，停电自动关机，确保数据不丢失。</li></ol><ol start="9"><li>SDR主要用SDR卡、USRP-2943和USRP-2920，偶尔也用USRP B210、B205mini-i和BladeRF。</li></ol><ol start="10"><li>内网穿透用的ZeroTier，在自己的阿里云服务器上做做了个Moon，只可惜是1M小水管，凑合用吧。阿里云的VPS带宽还是很昂贵的。</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;来杭州后，为了将USRP-2943也就是USRP X310一套用起来，家用一整套基本都更新换代了，这里简单记录下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/white-alone/blog_img/master/</summary>
+      
+    
+    
+    
+    <category term="Home" scheme="http://github.white-alone.com/categories/Home/"/>
+    
+    
+    <category term="Home" scheme="http://github.white-alone.com/tags/Home/"/>
     
   </entry>
   
