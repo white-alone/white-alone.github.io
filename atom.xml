@@ -6,7 +6,7 @@
   <link href="http://github.white-alone.com/atom.xml" rel="self"/>
   
   <link href="http://github.white-alone.com/"/>
-  <updated>2025-06-12T08:03:26.799Z</updated>
+  <updated>2025-09-23T06:44:48.820Z</updated>
   <id>http://github.white-alone.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>家庭算力中心—懒猫算力仓</title>
+    <link href="http://github.white-alone.com/%E5%AE%B6%E5%BA%AD%E7%AE%97%E5%8A%9B%E4%B8%AD%E5%BF%83%E2%80%94%E6%87%92%E7%8C%AB%E7%AE%97%E5%8A%9B%E4%BB%93/"/>
+    <id>http://github.white-alone.com/%E5%AE%B6%E5%BA%AD%E7%AE%97%E5%8A%9B%E4%B8%AD%E5%BF%83%E2%80%94%E6%87%92%E7%8C%AB%E7%AE%97%E5%8A%9B%E4%BB%93/</id>
+    <published>2025-09-23T06:44:48.820Z</published>
+    <updated>2025-09-23T06:44:48.820Z</updated>
+    
+    <content type="html"><![CDATA[<p>随着AI时代的到来，各种大模型能极大的提升工作效率，让很多费时费力的事情变得轻松愉快，但随之带来的隐私问题，还有烧钱如流水的token，就有了我现在用的家庭设备之一，懒猫算力仓。</p><h1 id="0x00-颜值即正义"><a href="#0x00-颜值即正义" class="headerlink" title="0x00 颜值即正义"></a>0x00 颜值即正义</h1><p>作为老王的忠实粉丝，懒猫的VIP用户，带货达人，曾经的周榜/月榜第一，当前总榜第六开发者，最大容量存储懒猫拥有者，虽然没赶上算力仓的第一波样板，但有幸拿到了老王赠送的创始版样机。<br>![[2-家庭算力中心——懒猫算力仓.png]]<br>![[家庭算力中心——懒猫算力仓.png]]<br>![[1-家庭算力中心——懒猫算力仓.png]]<br>外壳沿袭懒猫的高端CNC外壳，机甲风，非常酷炫，拿在手里很沉很扎实，比板砖更适合自卫防身。<br>星球大战风格，太酷了，唯一缺憾的是体积比懒猫大了点，放上面有点头重脚轻，最近实在太忙了，一直说设计个3D打印的外壳和支架，一直抽不出时间，先排进懒猫清单吧，等搞完手头的几块板子再来折腾。<br>![[5-家庭算力中心——懒猫算力仓.png]]</p><h1 id="0x10-性能指标"><a href="#0x10-性能指标" class="headerlink" title="0x10 性能指标"></a>0x10 性能指标</h1><p>核心主控用的是老黄的NVIDIA Jetson AGX Orin 64G，也就是JD卖1W5的开发套件同款核心板。<br>算力275 TOPS，虽然远不如4090，但这价格、显存容量、功耗，作为家庭服务中心还是很OK的。板载2个nvme接口，有HDMI、USB3.0，内置wifi、2.5G/10G双网口，系统是Orin原生Ubuntu，二次开发非常友好。<br>![[15-家庭算力中心——懒猫算力仓.png]]<br>![[16-家庭算力中心——懒猫算力仓.png]]<br>![[4-家庭算力中心——懒猫算力仓.png]]</p><p>下面是我测试过得部分显卡和模型，用的ollama默认的参数，没有做任何优化，直接下载然后测试。<br>可以看到小模型方面，Orin还是能打的，相比内存价比黄金的Mac和功耗炸裂的显卡，作为7x24小时工作的家庭算力中心还是绰绰有余的。</p><table><thead><tr><th>模型【tokens/s】<br>ollama q4</th><th>Orin 64g<br></th><th>M4 Pro 64G</th><th>M2 Ultra 192G</th><th>M3 Ultra 512G</th><th>4090D 48G</th><th>4090 24G</th><th>A100 40G</th></tr></thead><tbody><tr><td>codellama:70b</td><td>3.88</td><td>5.88</td><td>15.36</td><td>14.59</td><td>21.97</td><td>23.35</td><td>24.11</td></tr><tr><td>qwen2.5:7b</td><td>23.97</td><td>43.05</td><td>84.41</td><td>87.42</td><td>143.53</td><td>91.35</td><td>81.92</td></tr><tr><td>qwen2.5:14b</td><td>13.15</td><td>22.18</td><td>46.65</td><td>46.86</td><td>79.44</td><td>58.51</td><td>59.03</td></tr><tr><td>qwen2.5:32b</td><td>6.45</td><td>10.53</td><td>24.7</td><td>24.54</td><td>40.13</td><td>32.68</td><td>33.77</td></tr><tr><td>qwen2.5:72b</td><td>3.03</td><td>4.77</td><td></td><td>11.40</td><td>18.34</td><td>17.24</td><td>2.71</td></tr><tr><td>qwen2.5-coder:7b</td><td>22.95</td><td>43.51</td><td>84.13</td><td>83.09</td><td>143.65</td><td></td><td></td></tr><tr><td>qwen2.5-coder:14b</td><td>12.57</td><td>22.14</td><td>46.83</td><td>45.84</td><td>74.98</td><td></td><td></td></tr><tr><td>qwen2.5-coder:32b</td><td>6.21</td><td>10.78</td><td></td><td>24.48</td><td>40.12</td><td></td><td></td></tr><tr><td>qwen3:8b</td><td>22.34</td><td>32.34</td><td></td><td>62.91</td><td>111.16</td><td></td><td>99.43</td></tr><tr><td>qwen3:14b</td><td>13.34</td><td>20.9</td><td></td><td>42.18</td><td>73.53</td><td>64.30</td><td>69.49</td></tr><tr><td>qwen3:30b</td><td>17.76</td><td>34.41</td><td></td><td>57.07</td><td>66.98</td><td>43.37</td><td>43.25</td></tr><tr><td>qwen3:32b</td><td>5.94</td><td>9.67</td><td></td><td>21.01</td><td>38.8</td><td>38.84</td><td>33.80</td></tr><tr><td>qwen3:235b</td><td></td><td></td><td></td><td>20.20</td><td>不支持</td><td></td><td></td></tr><tr><td>deepseek-r1:7b</td><td>23.68</td><td>41.89</td><td>84.15</td><td>81.24</td><td>144.50</td><td></td><td></td></tr><tr><td>deepseek-r1:14b</td><td>12.41</td><td>18.96</td><td>47.08</td><td>38.78</td><td>77.57</td><td></td><td></td></tr><tr><td>deepseek-r1:32b</td><td>5.98</td><td>10.04</td><td>25.03</td><td>23.64</td><td>39.42</td><td></td><td></td></tr><tr><td>deepseek-r1:70b</td><td>3.04</td><td>4.97</td><td></td><td>12.32</td><td>20.13</td><td></td><td></td></tr><tr><td>deepseek-coder-v2:16b</td><td>25.74</td><td>85.21</td><td>107.44</td><td>96.13</td><td>133.17</td><td></td><td></td></tr><tr><td>deepseek-coder-v2:236b</td><td></td><td></td><td></td><td>22.97</td><td></td><td></td><td></td></tr><tr><td>qwq:32b</td><td>6.26</td><td></td><td>24.21</td><td>24.79</td><td>40.52</td><td></td><td></td></tr><tr><td>mistral:7b</td><td>22.80</td><td></td><td></td><td>92.54</td><td>160.86</td><td></td><td></td></tr><tr><td>phi4:14b</td><td>13.13</td><td></td><td>46.46</td><td>44.38</td><td>83.87</td><td></td><td></td></tr><tr><td>gemma3:12b</td><td>13.80</td><td>25.38</td><td></td><td>45.14</td><td>85.23</td><td></td><td></td></tr><tr><td>gemma3:27b</td><td>7.16</td><td>11.87</td><td>25.61</td><td>23.91</td><td>44.47</td><td></td><td></td></tr><tr><td>codegemma:7b</td><td>22.95</td><td></td><td></td><td>81.45</td><td>141.07</td><td></td><td></td></tr><tr><td>codegemma:7b-code</td><td>错误</td><td></td><td></td><td>错误</td><td>143.81</td><td></td><td></td></tr><tr><td>llama3.3:70b</td><td>3.23</td><td></td><td></td><td>12.39</td><td>20.27</td><td></td><td></td></tr><tr><td>deepseek-v3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><h1 id="0x20-软件应用"><a href="#0x20-软件应用" class="headerlink" title="0x20 软件应用"></a>0x20 软件应用</h1><p>AI应用最麻烦的就是各种配置，如果只是流式对话很简单，打开网页就行，但如果要玩更深度点的，比如文生图、翻译、视频检索、语音等等，大部分小白用户都是两眼一抹黑。。。<br>懒猫算力仓作为懒猫的附属配件，所有AI应用都可以在懒猫的商店里直接安装，主打一个简单省事。<br>![[7-家庭算力中心——懒猫算力仓.png]]<br>![[8-家庭算力中心——懒猫算力仓.png]]<br>![[9-家庭算力中心——懒猫算力仓.png]]</p><p>还有个非常强的应用，作为十多年的NAS用户，数据仓鼠，存了若干TB的视频、音频、照片、文档等等各种资料，每次要找文件的时候都是一个艰苦的工作，之前觉得懒猫相册的自然语言搜图很方便，现在有了算力仓，可以全盘搜了。<br>![[14-家庭算力中心——懒猫算力仓.png]]<br>算力仓系统可以直接SSH上去，部署安装自己的应用，配个共享，完全就可以当万兆存储来用，弥补了懒猫2.5G网口的不足，期待老王发出算力仓存储的应用，这样就更Happy了。<br>![[13-家庭算力中心——懒猫算力仓.png]]</p><h1 id="0x30-未来期许"><a href="#0x30-未来期许" class="headerlink" title="0x30 未来期许"></a>0x30 未来期许</h1><p>Orin我用了一年多，懒猫算力仓因为用的是同款核心板，所以在性能方面没有让我Surprise，外壳和外设接口倒是让我挺满意的，弥补了懒猫没有万兆接口的遗憾，比较我家里19年就已经是万兆局域网了。<br>作为家庭算力中心，日常让它训练学习自己的私人文档资料，不用担心隐私方面问题，小模型无限token，等agent应用成熟了，就让它7x24努力干活就行。<br>配合懒猫的内网穿透，可以在任何地方用pc或者手机访问家里懒猫上的AI应用，这还是非常棒的，相比其他的各种AI一体机，懒猫算力仓应该是最省事方面的。<br>毕竟面世时间短，现在懒猫的AI应用还有很多不足的地方，但相信老王会让它越来越强大的。<br>PS：期待下一代的Thor核心懒猫算力仓，2070T FLOPS，不过按照老王精益求精的调性，目测得26-27年了。。。先用Orin的顶着吧~~</p><p>最后，如果有想买懒猫算力仓的，必须要先拥有懒猫，可以找我要折扣券，给老王提了那么多意见建议，刷脸要点折扣券还是ok的，大不了下次和凌御去灌醉他^_^</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;随着AI时代的到来，各种大模型能极大的提升工作效率，让很多费时费力的事情变得轻松愉快，但随之带来的隐私问题，还有烧钱如流水的token，就有了我现在用的家庭设备之一，懒猫算力仓。&lt;/p&gt;
+&lt;h1 id=&quot;0x00-颜值即正义&quot;&gt;&lt;a href=&quot;#0x00-颜值即正义&quot; c</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>家庭网络升级指南【四】</title>
@@ -481,31 +502,6 @@
     <category term="ESXi" scheme="http://github.white-alone.com/tags/ESXi/"/>
     
     <category term="MacOS" scheme="http://github.white-alone.com/tags/MacOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ESXi NVME 驱动降级方法</title>
-    <link href="http://github.white-alone.com/ESXi%20NVME%20%E9%A9%B1%E5%8A%A8%E9%99%8D%E7%BA%A7%E6%96%B9%E6%B3%95/"/>
-    <id>http://github.white-alone.com/ESXi%20NVME%20%E9%A9%B1%E5%8A%A8%E9%99%8D%E7%BA%A7%E6%96%B9%E6%B3%95/</id>
-    <published>2020-06-14T20:07:17.000Z</published>
-    <updated>2022-11-26T09:20:36.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近将Z390+i7-9700K的机器从ubuntu 18.04 -&gt; ESXi 6.7u3，用虚拟化来提高硬件资源利用率。因为ESXi 7.0阉割的驱动太多了，太麻烦，新特性也没吸引到我，所以还是6.7。</p><p>装完发现海康威视的C2000 Pro NVME SSD没认出来，目测还是驱动阉割的问题，搜了下确实如此，6.5和6.7的就能认出来。</p><p>群里有童鞋也遇到同样问题，就简单写了下做个记录。</p><p>解决方案有2种，一种是直接修改iso镜像，将驱动包替换掉，另一种更简单一点，用vib驱动包降级下驱动即可。</p><p>这里就说下第二种方法：</p><p>先开启ESXi主机的ssh服务，在系统界面或者web界面开启都可以</p><p>下载文件升级包vmware-ESXi-6.7.0-8169922-depot.zip，这里用DELL的：<br><a href="https://dl.dell.com/FOLDER04945367M/1/VMware-VMvisor-Installer-6.7.0-8169922.x86_64-DellEMC_Customized-A01.zip" target="_blank" rel="noopener">https://dl.dell.com/FOLDER04945367M/1/VMware-VMvisor-Installer-6.7.0-8169922.x86_64-DellEMC_Customized-A01.zip</a></p><p>下载完成后解压，把vib20文件夹中2个文件夹里的nvme驱动包scp到esxi主机的/tmp或者其他目录：</p><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vib20<span class="string">\nvme</span></span><br><span class="line">vib20<span class="string">\vmware-esx-esxcli-nvme-plugin</span></span><br></pre></td></tr></table></figure><p>之后ssh到主机，执行命令安装：</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#esxcli software vib install -v /tmp/VMware_bootbank_vmware-esx-esxcli-nvme-plugin_1<span class="number">.2</span><span class="number">.0</span><span class="number">.32</span><span class="number">-0.0</span><span class="number">.8169922</span>.vib</span><br><span class="line">#esxcli software vib install -v /tmp/VMW_bootbank_nvme_1<span class="number">.2</span><span class="number">.1</span><span class="number">.34</span><span class="number">-1</span>vmw<span class="number">.670</span><span class="number">.0</span><span class="number">.0</span><span class="number">.8169922</span>.vib</span><br></pre></td></tr></table></figure><p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/ESXi_NVME_%E9%A9%B1%E5%8A%A8%E9%99%8D%E7%BA%A7%E6%96%B9%E6%B3%95/1592136516206.png" alt=""></p><p>重启后，SSD就识别出来了。</p><p><img src="https://raw.githubusercontent.com/white-alone/blog_img/master/ESXi_NVME_%E9%A9%B1%E5%8A%A8%E9%99%8D%E7%BA%A7%E6%96%B9%E6%B3%95/1592136527438.png" alt=""></p><p>其他诸如网卡等其他外设，都可以用这种方法升级或者降级驱动。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;最近将Z390+i7-9700K的机器从ubuntu 18.04 -&amp;gt; ESXi 6.7u3，用虚拟化来提高硬件资源利用率。因为ESXi 7.0阉割的驱动太多了，太麻烦，新特性也没吸引到我，所以还是6.7。&lt;/p&gt;
-&lt;p&gt;装完发现海康威视的C2000 Pro NVME</summary>
-      
-    
-    
-    
-    <category term="ESXi" scheme="http://github.white-alone.com/categories/ESXi/"/>
-    
-    
-    <category term="ESXi" scheme="http://github.white-alone.com/tags/ESXi/"/>
     
   </entry>
   
