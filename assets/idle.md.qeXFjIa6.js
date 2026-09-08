@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as a}from"./chunks/framework.BveOjhN0.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"idle.md","filePath":"idle.md","lastUpdated":1786701556000}'),r={name:"idle.md"};function o(s,d,c,n,i,l){return t(),a("div")}const m=e(r,[["render",o]]);export{_ as __pageData,m as default};
